@@ -1,0 +1,4 @@
+repository "Spellbook3d 2025-11-19_17-12-40/Spellbook3d@10171263248435@cloud"
+  path "/"
+    br "/main"
+    co "/main"

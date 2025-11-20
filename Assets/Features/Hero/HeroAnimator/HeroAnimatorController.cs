@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace Features.Hero.HeroAnimator
 {
-    public class HeroAnimator : MonoBehaviour
+    public class HeroAnimatorController : MonoBehaviour
     {
-        private static readonly int IsMove = Animator.StringToHash("IsMove");
         [SerializeField] private Animator _animator;
 
         private void OnEnable()
@@ -15,12 +14,12 @@ namespace Features.Hero.HeroAnimator
 
         public void PlayMove()
         {
-            _animator.SetBool(IsMove, true);
+            _animator.Play("move");
         }
 
         public void StopMove()
         {
-            _animator.SetBool(IsMove, false);
+            _animator.Play("idle");
         }
     }
 }

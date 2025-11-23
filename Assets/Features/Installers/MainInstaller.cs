@@ -1,3 +1,4 @@
+using Features.Enemy.EnemySpawner;
 using Features.GameBootstrap;
 using Features.Hero.HeroInstance;
 using Features.Hero.HeroMove;
@@ -31,7 +32,21 @@ namespace Installers
             Container.Bind<SpawnMapSystem>()
                 .FromComponentInHierarchy()
                 .AsSingle()
+                .NonLazy(); 
+            
+            Container.Bind<EnemySpawnerSystem>()
+                .FromComponentInHierarchy()
+                .AsSingle()
+                .NonLazy();            
+            
+            Container.Bind<DynamicNavMeshBake>()
+                .FromComponentInHierarchy()
+                .AsSingle()
                 .NonLazy();
+            
+            
+            
+            
             
         }
     }

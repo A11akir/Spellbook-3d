@@ -30,7 +30,7 @@ namespace Features.GameBootstrap
         {
             _spawnMapSystem.SpawnMap();
             _instanceHeroSystem.InstanceHero();
-            _enemySpawnerSystem.StartSpawn();
+            _enemySpawnerSystem.StartSpawnEnemy();
         }
     }
 }

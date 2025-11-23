@@ -11,10 +11,12 @@ namespace Features.Hero.HeroInstance
         [SerializeField] private GameObject _heroPrefab;
         [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
 
+        public GameObject HeroReference { get; private set; }
+
         public void InstanceHero()
         {
-            var hero = _container.InstantiatePrefab(_heroPrefab);
-            _cinemachineVirtualCamera.Follow = hero.transform;
+            HeroReference = _container.InstantiatePrefab(_heroPrefab);
+            _cinemachineVirtualCamera.Follow = HeroReference.transform;
         }
     }
 }

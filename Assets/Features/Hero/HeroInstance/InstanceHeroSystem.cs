@@ -12,7 +12,6 @@ namespace Features.Hero.HeroInstance
         [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
 
         public GameObject HeroReference { get; private set; }
-
         public void InstanceHero()
         {
             HeroReference = _container.InstantiatePrefab(_heroPrefab);

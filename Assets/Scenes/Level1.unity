@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028292, g: 0.22571306, b: 0.30692118, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -327,8 +327,9 @@ GameObject:
   m_Component:
   - component: {fileID: 209737575}
   - component: {fileID: 209737576}
+  - component: {fileID: 209737577}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: HpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -406,6 +407,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &209737577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209737574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f00a480d2c4c456fa8be39ff65c3ff97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SliderHP: {fileID: 209737576}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,6 +1121,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157f873609b47e14686d854ed17e4a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _heroMarker: {fileID: 3901322562836814870, guid: 8ee08d04ad5df46fbb2e97260b63420b,
+    type: 3}
+  _heroHp: {fileID: -7515450063827370712, guid: 8ee08d04ad5df46fbb2e97260b63420b,
+    type: 3}
 --- !u!1 &1103468933
 GameObject:
   m_ObjectHideFlags: 0

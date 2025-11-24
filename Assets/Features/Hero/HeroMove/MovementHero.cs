@@ -28,7 +28,7 @@ namespace Features.Hero.HeroMove
 
         private void OnEnable()
         {
-            _heroAnimatorController =GetComponent<HeroAnimatorController>();
+            _heroAnimatorController = GetComponent<HeroAnimatorController>();
             _controller = GetComponent<CharacterController>();
             if (mainCamera == null)
                 mainCamera = Camera.main;

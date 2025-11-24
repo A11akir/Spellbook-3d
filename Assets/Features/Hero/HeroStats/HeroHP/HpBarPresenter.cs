@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Features.Hero.HeroStats.HeroHP
 {
-    public class HpBarPresenter : MonoBehaviour
+    public class HpBarPresenter : IDisposable
     {
         private HeroHP _heroHP;
         private HpBarView _hpBarView;
@@ -19,10 +19,11 @@ namespace Features.Hero.HeroStats.HeroHP
 
         private void UpdateHpBar()
         {
+            Debug.Log("UpdateHpBar");
             _hpBarView.SetValue(_heroHP.CurrentHP, _heroHP.MaxHP);
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
             _heroHP.HPChanged -= UpdateHpBar;
         }

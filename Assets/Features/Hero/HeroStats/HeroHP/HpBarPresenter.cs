@@ -6,26 +6,25 @@ namespace Features.Hero.HeroStats.HeroHP
 {
     public class HpBarPresenter : IDisposable
     {
-        private HeroHP _heroHP;
+        private HeroHp _heroHp;
         private HpBarView _hpBarView;
-        [Inject]
-        private void Construct(HpBarView hpBarView, HeroHP heroHP)
+        
+        public HpBarPresenter(HpBarView hpBarView, HeroHp heroHp)
         {
             _hpBarView = hpBarView;
-            _heroHP = heroHP;
+            _heroHp = heroHp;
 
-            _heroHP.HPChanged += UpdateHpBar;
+            _heroHp.HpChanged += UpdateHpBar;
         }
 
         private void UpdateHpBar()
         {
-            Debug.Log("UpdateHpBar");
-            _hpBarView.SetValue(_heroHP.CurrentHP, _heroHP.MaxHP);
+            _hpBarView.SetValue(_heroHp.CurrentHp, _heroHp.MaxHp);
         }
 
         public void Dispose()
         {
-            _heroHP.HPChanged -= UpdateHpBar;
+            _heroHp.HpChanged -= UpdateHpBar;
         }
     }
 }

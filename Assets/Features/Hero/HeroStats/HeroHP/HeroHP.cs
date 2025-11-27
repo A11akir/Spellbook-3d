@@ -3,34 +3,32 @@ using UnityEngine;
 
 namespace Features.Hero.HeroStats.HeroHP
 {
-    public class HeroHP : MonoBehaviour
+    public class HeroHp
     {
-        public event Action HPChanged;
+        public event Action HpChanged;
 
         private float _currentHp;
-        public float CurrentHP
+        public float CurrentHp
         {
             get => _currentHp;
             set
             {
                 if (!Mathf.Approximately(_currentHp, value))
                 {
-                    Debug.Log("CurrentHp");
                     _currentHp = value;
-                    HPChanged?.Invoke();
+                    HpChanged?.Invoke();
                 }
             }
         }
 
-        public float MaxHP;
-
-        public void ResetHP() => CurrentHP = MaxHP;
+        public float MaxHp;
+        
+        public void ResetHp() => CurrentHp = MaxHp;
 
         public void TakeDamage(float damage)
         {
-            Debug.Log(CurrentHP);
-            if (CurrentHP <= 0) return;
-            CurrentHP -= damage;
+            if (CurrentHp <= 0) return;
+            CurrentHp -= damage;
         }
     }
 }

@@ -10,8 +10,9 @@ namespace Features.Enemy.EnemyAttack
 {
     public class EnemyAttack : MonoBehaviour
     {
-        [Inject] private HeroMarker _hero;
-        
+        private HeroHp _heroHp;
+        private InstanceHeroSystem _instanceHeroSystem;
+         
         public float AttackCooldown = 3f;
         private float _attackCooldown;
         private bool _isAttacking;
@@ -23,20 +24,21 @@ namespace Features.Enemy.EnemyAttack
         private Collider[] _hits = new Collider[1];
         private bool _attackIsActive;
 
-        private void OnEnable()
+        [Inject]
+        private void Construct(HeroHp heroHp, InstanceHeroSystem instanceHeroSystem)
         {
-            _layerMask = 1 << LayerMask.NameToLayer($"Player");
+            _heroHp = heroHp;
+            _instanceHeroSystem = instanceHeroSystem;
         }
+        
+        private void OnEnable() =>
+            _layerMask = 1 << LayerMask.NameToLayer($"Player");
 
         private void Update()
         {
-            
             UpdateCooldown();
             if (CanAttack())
-            {
-                Debug.Log("CanAttack");
                 StartAttack();
-            }
         }
 
         private void UpdateCooldown()
@@ -50,11 +52,10 @@ namespace Features.Enemy.EnemyAttack
 
         private void OnAttack()
         {
-            Debug.Log("oNattack");
             if (Hit(out Collider hit))
             {
-                Debug.Log("Hit");
-                hit.transform.GetComponent<HeroHP>().TakeDamage(Damage);
+                _heroHp.TakeDamage(Damage);
+                OnAttackEnded();
             }
         }
 
@@ -62,29 +63,30 @@ namespace Features.Enemy.EnemyAttack
         {
             var hitCount = Physics.OverlapSphereNonAlloc(StartPoint(), Cleavage, _hits, _layerMask);
 
-            hit = _hits.FirstOrDefault();
-            
-            return hitCount > 0;
+            GetFirstHit(out hit, hitCount);
+
+            if (hitCount > 0)
+                return true;
+            return false;
         }
 
-        private Vector3 StartPoint()
+        private void GetFirstHit(out Collider hit, int hitCount)
         {
-            return new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward * EffectiveDistance;
+            hit = hitCount > 0 ? _hits[0] : null;
         }
 
+        private Vector3 StartPoint() => 
+            new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward * EffectiveDistance;
 
-        private bool CooldownIsUp()
-        {
-            return _attackCooldown <= 0;
-        }
+        private bool CooldownIsUp() =>
+             _attackCooldown <= 0;
 
         // ReSharper disable Unity.PerformanceAnalysis
         private void StartAttack()
         {
-            transform.LookAt(_hero.GetTransform());
+            transform.LookAt(_instanceHeroSystem.transform);
             _isAttacking = true;
             
-            Debug.Log("StartAttack");
             OnAttack();
         }
         private void OnAttackEnded()
@@ -93,13 +95,7 @@ namespace Features.Enemy.EnemyAttack
             _isAttacking = false;
         } 
 
-        public void DisableAttack()
-        {
-            _attackIsActive = false;
-        }
-        public void EnablleAttack()
-        {
-            _attackIsActive = true;
-        }
+        public void DisableAttack() => _attackIsActive = false;
+        public void EnablleAttack() => _attackIsActive = true;
     }
 }

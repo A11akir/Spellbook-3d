@@ -52,7 +52,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3991905636731121367
 MonoBehaviour:
@@ -82,7 +82,6 @@ GameObject:
   - component: {fileID: -1594297029003629670}
   - component: {fileID: 1173190057381073857}
   - component: {fileID: 3336231199666606218}
-  - component: {fileID: -4405099309268923984}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -243,15 +242,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyAttack: {fileID: 1173190057381073857}
   _triggerObserver: {fileID: 3991905636731121367}
---- !u!114 &-4405099309268923984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3901024781745872014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c40e44c5f8645d49a034c65c91eb038, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

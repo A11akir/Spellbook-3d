@@ -6,11 +6,11 @@ using Zenject;
 namespace Features.Hero.HeroMove
 {
     [RequireComponent(typeof(CharacterController))]
-    public class MovementHero : MonoBehaviour
+    public class MovementHero : MonoBehaviour 
     {
-        public float speed = 5f;
+        public float speed;
 
-        private Camera mainCamera;
+        private Camera _mainCamera;
         private CharacterController _controller;
         private Vector3 _currentMove;
 
@@ -30,8 +30,8 @@ namespace Features.Hero.HeroMove
         {
             _heroAnimatorController = GetComponent<HeroAnimatorController>();
             _controller = GetComponent<CharacterController>();
-            if (mainCamera == null)
-                mainCamera = Camera.main;
+            if (_mainCamera == null)
+                _mainCamera = Camera.main;
         }
 
         private void OnMove(Vector2 dir)
@@ -62,7 +62,7 @@ namespace Features.Hero.HeroMove
         private void RotateHero(Vector2 mousePos)
         {
             Plane groundPlane = new Plane(Vector3.up, transform.position);
-            Ray ray = mainCamera.ScreenPointToRay(mousePos);
+            Ray ray = _mainCamera.ScreenPointToRay(mousePos);
 
             if (groundPlane.Raycast(ray, out float enter))
             {

@@ -34,6 +34,7 @@ namespace Features.Enemy.EnemySpawner
             {
                 var enemy = _container.InstantiatePrefab(_enemyPrefab);
                 
+                enemy.transform.SetParent(transform);
                 Vector3 basePoint = _spawnMapSystem.GetRandomPointForSpawnEnemy();
 
                 float height = enemy.transform.localScale.y;

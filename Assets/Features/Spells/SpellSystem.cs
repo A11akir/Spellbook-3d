@@ -17,7 +17,7 @@ namespace Features.Spells
             SpellUsed?.Invoke(number);
         }
 
-        public float GetCooldown(object spellIndex)
+        public float GetCooldown(int spellIndex)
         {
             throw new NotImplementedException();
         }

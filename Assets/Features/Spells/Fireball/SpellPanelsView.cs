@@ -18,7 +18,7 @@ namespace Features.Spells.Fireball
 
         public void OnSpellUsed(int number)
         {
-            float cooldown = _spellSystem.GetCooldown(spellIndex);
+            /*float cooldown = _spellSystem.GetCooldown(spellIndex);*/
         }
     }
 }

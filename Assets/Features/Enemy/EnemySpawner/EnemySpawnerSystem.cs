@@ -8,11 +8,13 @@ namespace Features.Enemy.EnemySpawner
 {
     public class EnemySpawnerSystem : MonoBehaviour
     {
-        [Inject] DiContainer _container;
+        [Inject] private DiContainer _container;
 
+        [SerializeField] private GameObject _spawnerPrefab;
         [SerializeField] private GameObject _enemyPrefab;
-        [SerializeField] private float _spawnInterval;
-        [SerializeField] private float _enemyCount;
+        [SerializeField] private List<float> _spawnIntervals;
+        [SerializeField] private List<int> _enemyCounts;
+        [SerializeField] private int _spawnerCount = 3;
 
         private SpawnMapSystem _spawnMapSystem;
 
@@ -20,31 +22,24 @@ namespace Features.Enemy.EnemySpawner
         private void Construct(SpawnMapSystem spawnMapSystem)
         {
             _spawnMapSystem = spawnMapSystem;
+            
         }
-        
+
         public void StartSpawnEnemy()
         {
-            StartCoroutine(SpawnerEnemy());
-        }
-
-        // ReSharper disable Unity.PerformanceAnalysis
-        private IEnumerator SpawnerEnemy()
-        {
-            for (int i = 0; i < _enemyCount; i++)
+            for (int i = 0; i < _spawnerCount; i++)
             {
-                var enemy = _container.InstantiatePrefab(_enemyPrefab);
+                Vector3 spawnPos = _spawnMapSystem.GetRandomPointForSpawnEnemy();
                 
-                enemy.transform.SetParent(transform);
-                Vector3 basePoint = _spawnMapSystem.GetRandomPointForSpawnEnemy();
-
-                float height = enemy.transform.localScale.y;
+                var spawner = _container.InstantiatePrefab(_spawnerPrefab, spawnPos, Quaternion.identity, transform);
+                float height = spawner.transform.localScale.y/2;
                 
-                Vector3 spawnPos = new Vector3(basePoint.x, basePoint.y + height, basePoint.z);
+                spawner.transform.position = new Vector3(spawnPos.x, spawnPos.y + height, spawnPos.z);
+                spawner.transform.SetParent(transform);
 
-                enemy.transform.position = spawnPos;
-
-                yield return new WaitForSeconds(_spawnInterval);
+                spawner.GetComponent<EnemySpawner>().StartSpawnerEnemy(_enemyCounts[i], _spawnIntervals[i], _enemyPrefab);
             }
         }
+       
     }
 }

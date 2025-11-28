@@ -44,6 +44,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FirstSpell"",
+                    ""type"": ""Button"",
+                    ""id"": ""439949d3-3b34-4a08-a9f8-5be110f9d712"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b0890af3-2570-4b3a-952c-96129a650bdd"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FirstSpell"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -128,6 +148,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_PlayerControl = asset.FindActionMap("PlayerControl", throwIfNotFound: true);
         m_PlayerControl_Movement = m_PlayerControl.FindAction("Movement", throwIfNotFound: true);
         m_PlayerControl_Rotate = m_PlayerControl.FindAction("Rotate", throwIfNotFound: true);
+        m_PlayerControl_FirstSpell = m_PlayerControl.FindAction("FirstSpell", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -191,12 +212,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private List<IPlayerControlActions> m_PlayerControlActionsCallbackInterfaces = new List<IPlayerControlActions>();
     private readonly InputAction m_PlayerControl_Movement;
     private readonly InputAction m_PlayerControl_Rotate;
+    private readonly InputAction m_PlayerControl_FirstSpell;
     public struct PlayerControlActions
     {
         private @Controls m_Wrapper;
         public PlayerControlActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerControl_Movement;
         public InputAction @Rotate => m_Wrapper.m_PlayerControl_Rotate;
+        public InputAction @FirstSpell => m_Wrapper.m_PlayerControl_FirstSpell;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -212,6 +235,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Rotate.started += instance.OnRotate;
             @Rotate.performed += instance.OnRotate;
             @Rotate.canceled += instance.OnRotate;
+            @FirstSpell.started += instance.OnFirstSpell;
+            @FirstSpell.performed += instance.OnFirstSpell;
+            @FirstSpell.canceled += instance.OnFirstSpell;
         }
 
         private void UnregisterCallbacks(IPlayerControlActions instance)
@@ -222,6 +248,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Rotate.started -= instance.OnRotate;
             @Rotate.performed -= instance.OnRotate;
             @Rotate.canceled -= instance.OnRotate;
+            @FirstSpell.started -= instance.OnFirstSpell;
+            @FirstSpell.performed -= instance.OnFirstSpell;
+            @FirstSpell.canceled -= instance.OnFirstSpell;
         }
 
         public void RemoveCallbacks(IPlayerControlActions instance)
@@ -252,5 +281,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnFirstSpell(InputAction.CallbackContext context);
     }
 }

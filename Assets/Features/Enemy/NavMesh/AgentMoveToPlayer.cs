@@ -7,20 +7,20 @@ namespace Features.Enemy.NavMesh
 {
     public class AgentMoveToPlayer : MonoBehaviour
     {
-        [Inject] private InstanceHeroSystem _instanceHeroSystem;
+        [Inject] private HeroProvider _heroProvider;
 
         private NavMeshAgent agent;
 
-        void Start()
+        void OnEnable()
         {
             agent = GetComponent<NavMeshAgent>();
         }
 
         void Update()
         {
-            if (_instanceHeroSystem.HeroReference != null)
+            if (_heroProvider.HeroReference)
             {
-                agent.SetDestination(_instanceHeroSystem.HeroReference.transform.position);
+                agent.SetDestination(_heroProvider.HeroReference.transform.position);
             }
         }
     }

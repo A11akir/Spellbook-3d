@@ -11,7 +11,7 @@ namespace Features.Enemy.EnemyAttack
     public class EnemyAttack : MonoBehaviour
     {
         private HeroHp _heroHp;
-        private InstanceHeroSystem _instanceHeroSystem;
+        private HeroProvider _heroProvider;
          
         public float AttackCooldown = 3f;
         private float _attackCooldown;
@@ -25,10 +25,10 @@ namespace Features.Enemy.EnemyAttack
         private bool _attackIsActive;
 
         [Inject]
-        private void Construct(HeroHp heroHp, InstanceHeroSystem instanceHeroSystem)
+        private void Construct(HeroHp heroHp, HeroProvider heroProvider)
         {
             _heroHp = heroHp;
-            _instanceHeroSystem = instanceHeroSystem;
+            _heroProvider = heroProvider;
         }
         
         private void OnEnable() =>
@@ -84,7 +84,7 @@ namespace Features.Enemy.EnemyAttack
         // ReSharper disable Unity.PerformanceAnalysis
         private void StartAttack()
         {
-            transform.LookAt(_instanceHeroSystem.transform);
+            transform.LookAt(_heroProvider.HeroReference.transform);
             _isAttacking = true;
             
             OnAttack();
@@ -96,6 +96,6 @@ namespace Features.Enemy.EnemyAttack
         } 
 
         public void DisableAttack() => _attackIsActive = false;
-        public void EnablleAttack() => _attackIsActive = true;
+        public void EnableAttack() => _attackIsActive = true;
     }
 }

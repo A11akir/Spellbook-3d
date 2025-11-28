@@ -2,6 +2,7 @@ using System;
 using Features.Enemy.EnemySpawner;
 using Features.Hero.HeroInstance;
 using Features.Hero.HeroStats;
+using Features.Hero.HeroStats.HeroHP;
 using Features.MapGenerate;
 using UnityEngine;
 using Zenject;

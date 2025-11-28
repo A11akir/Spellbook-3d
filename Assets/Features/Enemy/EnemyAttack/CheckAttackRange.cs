@@ -16,7 +16,7 @@ namespace Features.Enemy.EnemyAttack
 
         private void TriggerEnter(Collider other)
         {
-            _enemyAttack.EnablleAttack();
+            _enemyAttack.EnableAttack();
         }
 
         private void TriggerExit(Collider other)

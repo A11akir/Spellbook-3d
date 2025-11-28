@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7959411314509052958}
   - component: {fileID: 2729430747912271118}
   - component: {fileID: 3991905636731121367}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttackZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,7 +82,8 @@ GameObject:
   - component: {fileID: -1594297029003629670}
   - component: {fileID: 1173190057381073857}
   - component: {fileID: 3336231199666606218}
-  m_Layer: 0
+  - component: {fileID: 7429099561632757985}
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,3 +243,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyAttack: {fileID: 1173190057381073857}
   _triggerObserver: {fileID: 3991905636731121367}
+--- !u!114 &7429099561632757985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3901024781745872014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d6441681394c9a8c296a3d2a35c7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

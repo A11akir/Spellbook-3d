@@ -1,5 +1,6 @@
 using System;
 using Features.Enemy.EnemySpawner;
+using Features.GoogleSheets;
 using Features.Hero.HeroInstance;
 using Features.Hero.HeroStats;
 using Features.Hero.HeroStats.HeroHP;
@@ -17,7 +18,8 @@ namespace Features.GameBootstrap
         private PlayerProgress _playerProgress;
         
         [Inject]
-        private void Construct(InstanceHeroSystem instanceHeroSystem, SpawnMapSystem spawnMapSystem, EnemySpawnerSystem enemySpawnerSystem, PlayerProgress playerProgress)
+        private void Construct(InstanceHeroSystem instanceHeroSystem, SpawnMapSystem spawnMapSystem, EnemySpawnerSystem enemySpawnerSystem,
+            PlayerProgress playerProgress)
         {
             _instanceHeroSystem = instanceHeroSystem;
             _spawnMapSystem = spawnMapSystem;

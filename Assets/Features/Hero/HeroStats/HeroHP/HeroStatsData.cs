@@ -1,8 +1,20 @@
-namespace Features.Hero.HeroStats.HeroHP
+using System;
+
+[Serializable]
+public class HeroStatsData : IMinion
 {
-    public class HeroStatsData
-    {
-        public float Health = 100;
-        public float Speed = 5;
-    }
+    public int Speed { get; set; }
+    public int Health { get; set; }
+}
+[Serializable]
+public class MillyEnemyStatsData : IMinion
+{
+    public int Speed { get; set; }
+    public int Health { get; set; }
+}
+
+public interface IMinion
+{
+     int Speed { get; set; }
+     int Health { get; set; }
 }

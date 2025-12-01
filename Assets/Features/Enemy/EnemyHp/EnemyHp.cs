@@ -1,12 +1,39 @@
+using System;
+using Features.Hero.HeroStats.HeroHP;
 using UnityEngine;
 
 namespace Features.Enemy.EnemyHp
 {
-    public class EnemyHp : MonoBehaviour
+    public class EnemyHp : IHealth
     {
+        public event Action HpChanged;
+
+        private float _currentHp;
+        public float CurrentHp
+        {
+            get => _currentHp;
+            set
+            {
+                if (!Mathf.Approximately(_currentHp, value))
+                {
+                    _currentHp = value;
+                    HpChanged?.Invoke();
+                }
+            }
+        }
+
+        public float MaxHp { get; set; }
+
+        public void ResetHp() => CurrentHp = MaxHp;
+        public void Heal(float amount)
+        {
+            
+        }
+
         public void TakeDamage(float damage)
         {
-            Destroy(gameObject);
+            if (CurrentHp <= 0) return;
+            CurrentHp -= damage;
         }
     }
 }

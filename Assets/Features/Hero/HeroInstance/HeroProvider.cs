@@ -28,7 +28,6 @@ namespace Features.Hero.HeroInstance
         public float GetSkinWidth()
         { 
             _heroWidth = _characterController.radius * 2;
-            Debug.Log(_heroWidth);
             return _heroWidth;
         }
     }

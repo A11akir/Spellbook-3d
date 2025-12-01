@@ -1,3 +1,4 @@
+using Features.Enemy.EnemyHp;
 using Features.Hero.HeroMove;
 using Features.Hero.HeroStats.HeroHP;
 
@@ -6,7 +7,9 @@ namespace Features.Hero.HeroStats
     public class PlayerProgress
     {
         private HeroHp _heroHp;
+        private EnemyHp _enemyHp;
         private HeroStatsData _heroStatsData;
+        private MillyEnemyStatsData _millyEnemyStatsData;
         private MovementHero _movementHero;
 
         public PlayerProgress(HeroStatsData heroStatsData, HeroHp heroHp)
@@ -20,9 +23,12 @@ namespace Features.Hero.HeroStats
         }
         public void NewProgress()
         {
-            _heroHp.MaxHp = _heroStatsData.Health;
+            
+            _enemyHp.MaxHp = _heroStatsData.Health;
             _movementHero.speed = _heroStatsData.Speed;
+            _heroHp.MaxHp = _millyEnemyStatsData.Health;
             _heroHp.ResetHp();
+            _enemyHp.ResetHp();
         }
     }
 }

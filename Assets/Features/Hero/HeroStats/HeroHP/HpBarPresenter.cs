@@ -1,30 +1,28 @@
 using System;
+using Features.Hero.HeroStats.HeroHP;
 using UnityEngine;
-using Zenject;
 
-namespace Features.Hero.HeroStats.HeroHP
+public class HpBarPresenter : IDisposable
 {
-    public class HpBarPresenter : IDisposable
+    private readonly IHealth _health;
+    private readonly HpBarView _view;
+
+    public HpBarPresenter(HpBarView view, IHealth health)
     {
-        private HeroHp _heroHp;
-        private HpBarView _hpBarView;
-        
-        public HpBarPresenter(HpBarView hpBarView, HeroHp heroHp)
-        {
-            _hpBarView = hpBarView;
-            _heroHp = heroHp;
+        _view = view;
+        _health = health;
 
-            _heroHp.HpChanged += UpdateHpBar;
-        }
+        _health.HpChanged += UpdateView;
+        UpdateView();
+    }
 
-        private void UpdateHpBar()
-        {
-            _hpBarView.SetValue(_heroHp.CurrentHp, _heroHp.MaxHp);
-        }
+    private void UpdateView()
+    {
+        _view.SetValue(_health.CurrentHp, _health.MaxHp);
+    }
 
-        public void Dispose()
-        {
-            _heroHp.HpChanged -= UpdateHpBar;
-        }
+    public void Dispose()
+    {
+        _health.HpChanged -= UpdateView;
     }
 }

@@ -3,7 +3,17 @@ using UnityEngine;
 
 namespace Features.Hero.HeroStats.HeroHP
 {
-    public class HeroHp
+    public interface IHealth
+    {
+        float CurrentHp { get; }
+        float MaxHp { get; }
+        event Action HpChanged;
+
+        void TakeDamage(float amount);
+        void ResetHp();
+        void Heal(float amount);
+    }
+    public class HeroHp : IHealth
     {
         public event Action HpChanged;
 
@@ -21,9 +31,13 @@ namespace Features.Hero.HeroStats.HeroHP
             }
         }
 
-        public float MaxHp;
-        
+        public float MaxHp { get; set; }
+
         public void ResetHp() => CurrentHp = MaxHp;
+        public void Heal(float amount)
+        {
+            
+        }
 
         public void TakeDamage(float damage)
         {

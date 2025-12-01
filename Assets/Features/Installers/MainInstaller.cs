@@ -2,6 +2,7 @@ using Cinemachine;
 using Features.Enemy.EnemyAttack;
 using Features.Enemy.EnemySpawner;
 using Features.GameBootstrap;
+using Features.GoogleSheets;
 using Features.Hero.HeroInstance;
 using Features.Hero.HeroStats;
 using Features.Hero.HeroStats.HeroHP;
@@ -31,11 +32,13 @@ namespace Features.Installers
             Container.Bind<HeroStatsData>().AsSingle().NonLazy();
             Container.Bind<HeroHp>().AsSingle().NonLazy();
             Container.Bind<HpBarPresenter>().AsSingle().NonLazy();
+            
 
             Container.Bind<InputMovementPlayer>().AsSingle().NonLazy();
             Container.Bind<InputSpells>().AsSingle().NonLazy();
             Container.Bind<SpellSystem>().AsSingle().NonLazy();
             Container.Bind<HeroProvider>().AsSingle().NonLazy();
+            Container.Bind<AllGameConfig>().AsSingle().NonLazy();
 
             Container.Bind<InstanceHeroSystem>()
                 .FromComponentInHierarchy()

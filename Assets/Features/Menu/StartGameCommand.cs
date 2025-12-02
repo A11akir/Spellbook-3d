@@ -1,19 +1,21 @@
 using Features.GameBootstrap;
-using Features.Menu;
 using Zenject;
 
-public class StartGameCommand : AbstractButton, IMenuCommand
+namespace Features.Menu
 {
-    private LevelBootstrap _bootstrap;
-
-    [Inject]
-    public void Construct(LevelBootstrap bootstrap)
+    public class StartGameCommand : AbstractButton, IMenuCommand
     {
-        _bootstrap = bootstrap;
-    }
+        private LevelBootstrap _bootstrap;
 
-    protected override void OnExecute()
-    {
-        _bootstrap.StartLevel();
+        [Inject]
+        public void Construct(LevelBootstrap bootstrap)
+        {
+            _bootstrap = bootstrap;
+        }
+
+        protected override void OnExecute()
+        {
+            _bootstrap.StartLevel();
+        }
     }
 }

@@ -15,23 +15,19 @@ namespace Features.GameBootstrap
         private InstanceHeroSystem _instanceHeroSystem;
         private EnemySpawnerSystem _enemySpawnerSystem;
         private SpawnMapSystem _spawnMapSystem;
-        private PlayerProgress _playerProgress;
         
         [Inject]
-        private void Construct(InstanceHeroSystem instanceHeroSystem, SpawnMapSystem spawnMapSystem, EnemySpawnerSystem enemySpawnerSystem,
-            PlayerProgress playerProgress)
+        private void Construct(InstanceHeroSystem instanceHeroSystem, SpawnMapSystem spawnMapSystem, EnemySpawnerSystem enemySpawnerSystem)
         {
             _instanceHeroSystem = instanceHeroSystem;
             _spawnMapSystem = spawnMapSystem;
             _enemySpawnerSystem = enemySpawnerSystem;
-            _playerProgress = playerProgress;
         }
 
         public void StartLevel()
         {
             _spawnMapSystem.SpawnMap();
             _instanceHeroSystem.InstanceHero();
-            _playerProgress.NewProgress();
             _enemySpawnerSystem.StartSpawnEnemy();
         }
     }

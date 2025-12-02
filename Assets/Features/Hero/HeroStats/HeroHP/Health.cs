@@ -1,10 +1,10 @@
 using System;
-using Features.Hero.HeroStats.HeroHP;
+using Features.AbstractMinion;
 using UnityEngine;
 
-namespace Features.Enemy.EnemyHp
+namespace Features.Hero.HeroStats.HeroHP
 {
-    public class EnemyHp : IHealth
+    public class Health : IHealth
     {
         public event Action HpChanged;
 

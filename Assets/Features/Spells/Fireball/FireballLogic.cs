@@ -1,7 +1,7 @@
 using System.Collections;
 using DG.Tweening;
-using Features.Enemy.EnemyHp;
 using Features.Hero.HeroInstance;
+using Features.Hero.HeroStats.HeroHP;
 using UnityEngine;
 using Zenject;
 
@@ -88,7 +88,7 @@ namespace Features.Spells.Fireball
             {
                 for (int i = 0; i < count; i++)
                 {
-                    var enemyHp = _hits[i].GetComponent<EnemyHp>();
+                    var enemyHp = _hits[i].GetComponent<Health>();
 
                     if (enemyHp != null)
                     {

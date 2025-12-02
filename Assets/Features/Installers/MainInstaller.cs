@@ -1,6 +1,8 @@
 using Cinemachine;
+using Features.AbstractMinion;
 using Features.Enemy.EnemyAttack;
 using Features.Enemy.EnemySpawner;
+using Features.Enemy.EnemyStats;
 using Features.GameBootstrap;
 using Features.GoogleSheets;
 using Features.Hero.HeroInstance;
@@ -11,12 +13,17 @@ using Features.MapGenerate;
 using Features.Scripts.Input;
 using Features.Spells;
 using Features.Spells.Fireball;
+using UnityEngine;
 using Zenject;
 
 namespace Features.Installers
 {
     public class MainInstaller : MonoInstaller
     {
+
+        
+        [SerializeField] private MeleeEnemyStatsData _meleeStats;        
+        [SerializeField] private HeroStatsData _heroStats;
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
         {
@@ -26,20 +33,28 @@ namespace Features.Installers
                 .NonLazy();
 
             
-            Container.Bind<EnemyAttack>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<MeleeEnemyStatsData>().FromInstance(_meleeStats).AsTransient().NonLazy();            
+            Container.Bind<HeroStatsData>().FromInstance(_heroStats).AsSingle().NonLazy();
+            
+            Container.Bind<EnemyAttack>().FromComponentInHierarchy().AsTransient();
 
             Container.Bind<InputGamePlay>().AsSingle().NonLazy();
-            Container.Bind<HeroStatsData>().AsSingle().NonLazy();
-            Container.Bind<HeroHp>().AsSingle().NonLazy();
-            Container.Bind<HpBarPresenter>().AsSingle().NonLazy();
+            Container.Bind<Health>().AsTransient().NonLazy();
+            Container.Bind<HpBarPresenter>().AsTransient().NonLazy();
             
 
             Container.Bind<InputMovementPlayer>().AsSingle().NonLazy();
             Container.Bind<InputSpells>().AsSingle().NonLazy();
             Container.Bind<SpellSystem>().AsSingle().NonLazy();
             Container.Bind<HeroProvider>().AsSingle().NonLazy();
+            Container.Bind<EnemyProvider>().AsSingle().NonLazy();
             Container.Bind<AllGameConfig>().AsSingle().NonLazy();
 
+            
+            Container.Bind<HpBarView>().FromComponentInHierarchy()
+                .AsSingle()
+                .NonLazy();
+            
             Container.Bind<InstanceHeroSystem>()
                 .FromComponentInHierarchy()
                 .AsSingle()
@@ -70,8 +85,8 @@ namespace Features.Installers
                 .AsSingle()
                 .NonLazy();
             
-            Container.Bind<PlayerProgress>()
-                .AsSingle().NonLazy();
+            /*Container.Bind<PlayerProgress>()
+                .AsSingle().NonLazy();*/
 
         }
     }

@@ -8,7 +8,7 @@ namespace Features.Spells.Fireball
 {
     public class SpellPanelsView : MonoBehaviour
     {
-        [SerializeField] private List<SkillPanelView> _skillPanels;
+        private List<SkillPanelView> _skillPanels;
         [Inject] SpellSystem _spellSystem;
 
         private void OnEnable()

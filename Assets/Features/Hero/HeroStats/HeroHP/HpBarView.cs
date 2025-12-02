@@ -8,5 +8,7 @@ namespace Features.Hero.HeroStats.HeroHP
         public Slider SliderHP;
         public void SetValue(float current, float max) =>
         SliderHP.value = (current/max)*max;
+        
+        
     }
 }

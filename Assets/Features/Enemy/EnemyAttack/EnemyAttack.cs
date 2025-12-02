@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Features.Enemy.EnemyStats;
 using Features.Hero.HeroInstance;
 using Features.Hero.HeroStats.HeroHP;
 using Unity.VisualScripting;
@@ -10,24 +11,24 @@ namespace Features.Enemy.EnemyAttack
 {
     public class EnemyAttack : MonoBehaviour
     {
-        private HeroHp _heroHp;
+        private Health _health;
         private HeroProvider _heroProvider;
+        private MeleeEnemyStatsData _stats;
          
         public float AttackCooldown = 3f;
         private float _attackCooldown;
         private bool _isAttacking;
         private int _layerMask;
-
-        public float Damage = 5;
+        
         public float Cleavage = 5f;
         public float EffectiveDistance = 0.5f;
         private Collider[] _hits = new Collider[1];
         private bool _attackIsActive;
 
         [Inject]
-        private void Construct(HeroHp heroHp, HeroProvider heroProvider)
+        private void Construct(Health health, HeroProvider heroProvider)
         {
-            _heroHp = heroHp;
+            _health = health;
             _heroProvider = heroProvider;
         }
         
@@ -54,7 +55,7 @@ namespace Features.Enemy.EnemyAttack
         {
             if (Hit(out Collider hit))
             {
-                _heroHp.TakeDamage(Damage);
+                _health.TakeDamage(_stats.Damage);
                 OnAttackEnded();
             }
         }

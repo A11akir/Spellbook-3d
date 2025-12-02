@@ -1,28 +1,31 @@
 using System;
-using Features.Hero.HeroStats.HeroHP;
-using UnityEngine;
+using Features.AbstractMinion;
 
-public class HpBarPresenter : IDisposable
+namespace Features.Hero.HeroStats.HeroHP
 {
-    private readonly IHealth _health;
-    private readonly HpBarView _view;
-
-    public HpBarPresenter(HpBarView view, IHealth health)
+    public class HpBarPresenter : IDisposable
     {
-        _view = view;
-        _health = health;
+        private readonly IHealth _health;
+        private readonly HpBarView _view;
 
-        _health.HpChanged += UpdateView;
-        UpdateView();
-    }
+        public HpBarPresenter(HpBarView view, IHealth health)
+        {
+            _view = view;
+            _health = health;
 
-    private void UpdateView()
-    {
-        _view.SetValue(_health.CurrentHp, _health.MaxHp);
-    }
+            _health.HpChanged += UpdateView;
+            UpdateView();
+        }
 
-    public void Dispose()
-    {
-        _health.HpChanged -= UpdateView;
+        private void UpdateView()
+        {
+            _view.SetValue(_health.CurrentHp, _health.MaxHp);
+            
+        }
+
+        public void Dispose()
+        {
+            _health.HpChanged -= UpdateView;
+        }
     }
 }

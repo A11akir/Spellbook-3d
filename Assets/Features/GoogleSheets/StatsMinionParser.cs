@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Features.Hero.HeroStats.HeroHP;
+using UnityEditor;
 using UnityEngine;
 
 namespace Features.GoogleSheets
@@ -8,21 +11,38 @@ namespace Features.GoogleSheets
     {
         private readonly AllGameConfig _allGameConfig;
         private StatsMinionConfig _currentStatsMinionConfig;
+        
+        private readonly List<IMinion> _targetSO = new();
 
         public StatsMinionParser(AllGameConfig allGameConfig)
         {
             _allGameConfig = allGameConfig;
             _allGameConfig.StatsMinion = new List<StatsMinionConfig>();
+            
+            LoadAllMinionSO();
         }
+
+        private void LoadAllMinionSO()
+        {
+            string[] guids = AssetDatabase.FindAssets("t:ScriptableObject", new[] {"Assets/Features"});
+            foreach (var guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                ScriptableObject so = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+
+                if (so is IMinion minion)
+                {
+                    _targetSO.Add(minion);
+                }
+            }
+        }
+
         public void Parse(string header, string token)
         {
             switch (header)
             {
                 case "Id":
-                    _currentStatsMinionConfig = new StatsMinionConfig
-                {
-                    Id = token
-                };
+                    _currentStatsMinionConfig = new StatsMinionConfig { Id = token };
                     _allGameConfig.StatsMinion.Add(_currentStatsMinionConfig);
                     break;
                 case "Damage":
@@ -35,6 +55,30 @@ namespace Features.GoogleSheets
                     _currentStatsMinionConfig.Health = Convert.ToInt32(token);
                     break;
             }
+        }
+
+        public void ApplyToSO()
+        
+        {
+            foreach (var cfg in _allGameConfig.StatsMinion)
+            {
+                var so = _targetSO
+                    .FirstOrDefault(x => (x as ScriptableObject).name == cfg.Id);
+                if (so == null)
+                {
+                    Debug.LogWarning($"SO not found for minion: {cfg.Id}");
+                    continue;
+                }
+
+                so.MoveSpeed = cfg.Speed;
+                so.Health = cfg.Health;
+
+                EditorUtility.SetDirty(so as UnityEngine.Object);
+                Debug.Log($"✅ Updated SO: {cfg.Id}");
+            }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 }

@@ -1,5 +1,6 @@
 using Features.Input.Scripts;
 using Features.Hero.HeroAnimator;
+using Features.Hero.HeroStats.HeroHP;
 using UnityEngine;
 using Zenject;
 
@@ -8,14 +9,13 @@ namespace Features.Hero.HeroMove
     [RequireComponent(typeof(CharacterController))]
     public class MovementHero : MonoBehaviour 
     {
-        public float speed;
-
         private Camera _mainCamera;
         private CharacterController _controller;
         private Vector3 _currentMove;
 
         private InputMovementPlayer _movementInput;
         private HeroAnimatorController _heroAnimatorController;
+        private HeroStatsData _heroStatsData;
 
         [Inject]
         public void Construct(InputMovementPlayer movementInput)
@@ -56,7 +56,7 @@ namespace Features.Hero.HeroMove
         private void MoveHero()
         {
             if (_currentMove != Vector3.zero)
-                _controller.Move(_currentMove * (speed * Time.deltaTime));
+                _controller.Move(_currentMove * (_heroStatsData.MoveSpeed * Time.deltaTime));
         }
 
         private void RotateHero(Vector2 mousePos)

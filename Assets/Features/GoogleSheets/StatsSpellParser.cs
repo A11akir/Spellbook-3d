@@ -35,5 +35,10 @@ namespace Features.GoogleSheets
                     break;
             }
         }
+
+        public void ApplyToSO()
+        {
+            
+        }
     }
 }

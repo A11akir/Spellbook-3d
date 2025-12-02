@@ -9,8 +9,7 @@ namespace Features.GoogleSheets
     {
         private static string spreadsheetId = "1B-nYVnmV_UKYShUIgmLXGMUo63LR0XOzwpcAmj_BTqo";
         private static List<string> itemsSheetsName;
-        private static string credentialsPath = "spellbook3d-546f90c63edf.json";
-        private static string settingsFileName = "GameSettings";
+        private static string credentialsPath = "spellbook3d-861e98634494.json";
         
         [MenuItem("GoogleSheets/Import All Configs")]
         private static async void LoadItemsSettings()
@@ -19,7 +18,7 @@ namespace Features.GoogleSheets
 
             itemsSheetsName = await sheetsImporter.GetSheetNames();
 
-            var gameSetting = LoadSettings();
+            var gameSetting = new AllGameConfig();
             
             foreach (var sheet in itemsSheetsName)
             {
@@ -37,22 +36,11 @@ namespace Features.GoogleSheets
                         continue;
                 }
                 
-                PlayerPrefs.SetString(settingsFileName, JsonUtility.ToJson(gameSetting));
-                PlayerPrefs.Save();
-                
                 await sheetsImporter.DownloadAndParseSheet(sheet, parser);
+                
+                parser.ApplyToSO();
             }
         }
         
-        
-        private static AllGameConfig LoadSettings()
-        {
-            var jsonLoaded = PlayerPrefs.GetString(settingsFileName);
-            var gameSettings = !string.IsNullOrEmpty(jsonLoaded)
-                ? JsonUtility.FromJson<AllGameConfig>(jsonLoaded)
-                : new AllGameConfig();
-            
-            return gameSettings;
-        }
     }
 }

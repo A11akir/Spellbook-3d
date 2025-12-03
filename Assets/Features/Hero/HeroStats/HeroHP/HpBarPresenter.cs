@@ -14,13 +14,11 @@ namespace Features.Hero.HeroStats.HeroHP
             _health = health;
 
             _health.HpChanged += UpdateView;
-            UpdateView();
         }
 
         private void UpdateView()
         {
             _view.SetValue(_health.CurrentHp, _health.MaxHp);
-            
         }
 
         public void Dispose()

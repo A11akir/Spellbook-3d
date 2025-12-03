@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a087b67227748639e0a28edea9280c6, type: 3}
   m_Name: MeleeEnemy
   m_EditorClassIdentifier: 
-  _moveSpeed: 2
+  _moveSpeed: 3
   _speed: 50
+  _damage: 0

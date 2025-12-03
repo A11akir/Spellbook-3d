@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028292, g: 0.22571306, b: 0.30692118, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 209737575}
   - component: {fileID: 209737576}
   - component: {fileID: 209737577}
+  - component: {fileID: 209737578}
   m_Layer: 5
   m_Name: HpBar
   m_TagString: Untagged
@@ -498,7 +499,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f00a480d2c4c456fa8be39ff65c3ff97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _derotateReference: {fileID: 0}
   SliderHP: {fileID: 209737576}
+--- !u!114 &209737578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209737574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd466396aa7c499b8fbc18c4ea6793f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &247562646
 GameObject:
   m_ObjectHideFlags: 0
@@ -2221,6 +2235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157f873609b47e14686d854ed17e4a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _heroHelthBar: {fileID: 0}
   _meleeStats: {fileID: 11400000, guid: fff70530318e7cf47aa6121bc58aaf7c, type: 2}
   _heroStats: {fileID: 11400000, guid: 01f8f55ab928c0345925409f50796903, type: 2}
 --- !u!1 &899079704
@@ -2310,11 +2325,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CanvasMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 1821095132110213090, guid: 893dcd9b40a924d0990aa19acb7dfab7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5892074867748717819, guid: 893dcd9b40a924d0990aa19acb7dfab7,
         type: 3}
@@ -2415,11 +2425,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8354986538669997053, guid: 893dcd9b40a924d0990aa19acb7dfab7,
-        type: 3}
-      propertyPath: _showList.Array.size
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8354986538669997053, guid: 893dcd9b40a924d0990aa19acb7dfab7,
         type: 3}
@@ -3142,7 +3147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnerPrefab: {fileID: 4191267041280712800, guid: ecdae581f4edec441a09b42968d73592,
     type: 3}
-  _enemyPrefab: {fileID: 3901024781745872014, guid: 69b7d872d598d4588a8fc237c5e0a90f,
+  _enemyPrefab: {fileID: 1650627115662372743, guid: 25d3b25eaa5cd481e837732698297750,
     type: 3}
   _spawnIntervals:
   - 3

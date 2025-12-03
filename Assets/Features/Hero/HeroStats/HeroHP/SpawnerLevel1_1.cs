@@ -6,71 +6,43 @@ namespace Features.Hero.HeroStats.HeroHP
         fileName = "Spawners",
         menuName = "Configs/Spawners/Level1.1",
         order = 1)]
-    public class SpawnerLevel1_1 : ScriptableObject, ISpawner
+    public class FireballStats : ScriptableObject
     {
-        [SerializeField] private int _countMelee;
-        [SerializeField] private int _countRange;
-        [SerializeField] private int _countGorilla;
-        [SerializeField] private int _countSpawners;
-        [SerializeField] private int _spawnInterval;
-        [SerializeField] private int _speed;
+        [SerializeField] private int _damage = 25;
+        [SerializeField] private int _lifeTime = 3;
+        [SerializeField] private int _missleSpeed = 100;
+        [SerializeField] private int _cooldown = 2;
+        [SerializeField] private int _cost = 12;
 
-        [SerializeField] private int _meleeCoefIncrease;
-        [SerializeField] private int _rangeCoefIncrease;
-        [SerializeField] private int _gorillaCoefIncrease;
-
-        public int CountMelee
+        public int Damage
         {
-            get => _countMelee;
-            set => _countMelee = value;
+            get => _damage;
+            set => _damage = value;
         }
 
-        public int CountRange
+        public int LifeTime
         {
-            get => _countRange;
-            set => _countRange = value;
+            get => _lifeTime;
+            set => _lifeTime = value;
         }
 
-        public int CountGorilla
+        public int MissleSpeed
         {
-            get => _countGorilla;
-            set => _countGorilla = value;
+            get => _missleSpeed;
+            set => _missleSpeed = value;
         }
 
-        public int CountSpawners
+        public int Cooldown
         {
-            get => _countSpawners;
-            set => _countSpawners = value;
+            get => _cooldown;
+            set => _cooldown = value;
         }
 
-        public int SpawnInterval
+        public int Cost
         {
-            get => _spawnInterval;
-            set => _spawnInterval = value;
-        }
-
-        public int Speed
-        {
-            get => _speed;
-            set => _speed = value;
-        }
-
-        public int MeleeCoefIncrease
-        {
-            get => _meleeCoefIncrease;
-            set => _meleeCoefIncrease = value;
-        }
-
-        public int RangeCoefIncrease
-        {
-            get => _rangeCoefIncrease;
-            set => _rangeCoefIncrease = value;
-        }
-
-        public int GorillaCoefIncrease
-        {
-            get => _gorillaCoefIncrease;
-            set => _gorillaCoefIncrease = value;
+            get => _cost;
+            set => _cost = value;
         }
     }
+
 }

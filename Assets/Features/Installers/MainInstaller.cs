@@ -20,8 +20,6 @@ namespace Features.Installers
 {
     public class MainInstaller : MonoInstaller
     {
-
-        
         [SerializeField] private MeleeEnemyStatsData _meleeStats;        
         [SerializeField] private HeroStatsData _heroStats;
         // ReSharper disable Unity.PerformanceAnalysis
@@ -31,7 +29,6 @@ namespace Features.Installers
                 .FromComponentInHierarchy()
                 .AsSingle()
                 .NonLazy();
-
             
             Container.Bind<MeleeEnemyStatsData>().FromInstance(_meleeStats).AsTransient().NonLazy();            
             Container.Bind<HeroStatsData>().FromInstance(_heroStats).AsSingle().NonLazy();
@@ -39,8 +36,7 @@ namespace Features.Installers
             Container.Bind<EnemyAttack>().FromComponentInHierarchy().AsTransient();
 
             Container.Bind<InputGamePlay>().AsSingle().NonLazy();
-            Container.Bind<Health>().AsTransient().NonLazy();
-            Container.Bind<HpBarPresenter>().AsTransient().NonLazy();
+            Container.Bind<IHealth>().To<Health>().AsTransient().NonLazy();
             
 
             Container.Bind<InputMovementPlayer>().AsSingle().NonLazy();
@@ -49,11 +45,6 @@ namespace Features.Installers
             Container.Bind<HeroProvider>().AsSingle().NonLazy();
             Container.Bind<EnemyProvider>().AsSingle().NonLazy();
             Container.Bind<AllGameConfig>().AsSingle().NonLazy();
-
-            
-            Container.Bind<HpBarView>().FromComponentInHierarchy()
-                .AsSingle()
-                .NonLazy();
             
             Container.Bind<InstanceHeroSystem>()
                 .FromComponentInHierarchy()
@@ -79,15 +70,6 @@ namespace Features.Installers
                 .FromComponentInHierarchy()
                 .AsSingle()
                 .NonLazy();
-
-            Container.Bind<HpBarView>()
-                .FromComponentInHierarchy()
-                .AsSingle()
-                .NonLazy();
-            
-            /*Container.Bind<PlayerProgress>()
-                .AsSingle().NonLazy();*/
-
         }
     }
 }

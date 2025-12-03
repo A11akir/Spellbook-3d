@@ -9,7 +9,7 @@ namespace Features.GoogleSheets
     {
         private static string spreadsheetId = "1B-nYVnmV_UKYShUIgmLXGMUo63LR0XOzwpcAmj_BTqo";
         private static List<string> itemsSheetsName;
-        private static string credentialsPath = "spellbook3d-861e98634494.json";
+        private static string credentialsPath = "spellbook3d-48835cb066bc.json";
         
         [MenuItem("GoogleSheets/Import All Configs")]
         private static async void LoadItemsSettings()

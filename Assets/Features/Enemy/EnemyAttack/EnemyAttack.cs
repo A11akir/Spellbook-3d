@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Features.AbstractMinion;
 using Features.Enemy.EnemyStats;
 using Features.Hero.HeroInstance;
 using Features.Hero.HeroStats.HeroHP;
@@ -11,10 +12,10 @@ namespace Features.Enemy.EnemyAttack
 {
     public class EnemyAttack : MonoBehaviour
     {
-        private Health _health;
-        private HeroProvider _heroProvider;
-        private MeleeEnemyStatsData _stats;
+        private HeroProvider _targetHero;
          
+        
+        private int _damage;
         public float AttackCooldown = 3f;
         private float _attackCooldown;
         private bool _isAttacking;
@@ -26,10 +27,9 @@ namespace Features.Enemy.EnemyAttack
         private bool _attackIsActive;
 
         [Inject]
-        private void Construct(Health health, HeroProvider heroProvider)
+        private void Construct(HeroProvider heroProvider)
         {
-            _health = health;
-            _heroProvider = heroProvider;
+            _targetHero = heroProvider;
         }
         
         private void OnEnable() =>
@@ -55,7 +55,7 @@ namespace Features.Enemy.EnemyAttack
         {
             if (Hit(out Collider hit))
             {
-                _health.TakeDamage(_stats.Damage);
+                _targetHero.Health.TakeDamage(_damage);
                 OnAttackEnded();
             }
         }
@@ -85,7 +85,7 @@ namespace Features.Enemy.EnemyAttack
         // ReSharper disable Unity.PerformanceAnalysis
         private void StartAttack()
         {
-            transform.LookAt(_heroProvider.HeroReference.transform);
+            transform.LookAt(_targetHero.HeroReference.transform);
             _isAttacking = true;
             
             OnAttack();

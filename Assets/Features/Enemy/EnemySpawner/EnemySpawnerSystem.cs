@@ -8,38 +8,45 @@ namespace Features.Enemy.EnemySpawner
 {
     public class EnemySpawnerSystem : MonoBehaviour
     {
-        [Inject] private DiContainer _container;
+        private SpawnerConfigData _configData;
+        private SpawnMapSystem _spawnMapSystem;
+        private DiContainer _container;
+        
+        [SerializeField] private GameObject _hpBarPrefab;
+        [SerializeField] private Transform _hpBarParent;
 
         [SerializeField] private GameObject _spawnerPrefab;
-        [SerializeField] private GameObject _enemyPrefab;
-        [SerializeField] private List<float> _spawnIntervals;
-        [SerializeField] private List<int> _enemyCounts;
-        [SerializeField] private int _spawnerCount = 3;
+        [SerializeField] private List<GameObject> _enemyPrefab;
 
-        private SpawnMapSystem _spawnMapSystem;
 
         [Inject]
-        private void Construct(SpawnMapSystem spawnMapSystem)
+        private void Construct(SpawnMapSystem spawnMapSystem, DiContainer container, SpawnerConfigData configData)
         {
             _spawnMapSystem = spawnMapSystem;
+            _container = container;
+            _configData = configData;
+        }
+
+        public void SetConfig()
+        {
             
         }
 
         public void StartSpawnEnemy()
         {
-            for (int i = 0; i < _spawnerCount; i++)
+            for (int i = 0; i < _configData.CountSpawners; i++)
             {
-                Vector3 spawnPos = _spawnMapSystem.GetRandomPointForSpawnEnemy();
-                
-                var spawner = _container.InstantiatePrefab(_spawnerPrefab, spawnPos, Quaternion.identity, transform);
-                float height = spawner.transform.localScale.y/2;
-                
-                spawner.transform.position = new Vector3(spawnPos.x, spawnPos.y + height, spawnPos.z);
-                spawner.transform.SetParent(transform);
+                Vector3 pos = _spawnMapSystem.GetRandomPointForSpawnEnemy();
 
-                spawner.GetComponent<EnemySpawner>().StartSpawnerEnemy(_enemyCounts[i], _spawnIntervals[i], _enemyPrefab);
+                var spawner = _container.InstantiatePrefab(
+                    _spawnerPrefab,
+                    pos,
+                    Quaternion.identity,
+                    transform);
+
+                spawner.GetComponent<EnemySpawner>()
+                    .InitSpawner(_configData, _enemyPrefab, _hpBarPrefab, _hpBarParent);
             }
         }
-       
     }
 }

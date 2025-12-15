@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -9,7 +10,7 @@ namespace Features.GoogleSheets
     {
         private static string spreadsheetId = "1B-nYVnmV_UKYShUIgmLXGMUo63LR0XOzwpcAmj_BTqo";
         private static List<string> itemsSheetsName;
-        private static string credentialsPath = "spellbook3d-48835cb066bc.json";
+        private static string credentialsPath = "spellbook3d-0437d485a3d0.json";
         
         [MenuItem("GoogleSheets/Import All Configs")]
         private static async void LoadItemsSettings()
@@ -31,6 +32,12 @@ namespace Features.GoogleSheets
                     case "StatsSpell":
                         parser = new StatsSpellParser(gameSetting);
                         break;
+                    case "SpellsKit":
+                        parser = new SpellsKitParser(gameSetting);
+                        break;
+                    case "Spawners":
+                        parser = new SpawnerLevelsParser(gameSetting);
+                        break;
                     default:
                         Debug.LogWarning($"No parser for sheet: {sheet}");
                         continue;
@@ -39,6 +46,8 @@ namespace Features.GoogleSheets
                 await sheetsImporter.DownloadAndParseSheet(sheet, parser);
                 
                 parser.ApplyToSO();
+                
+
             }
         }
         

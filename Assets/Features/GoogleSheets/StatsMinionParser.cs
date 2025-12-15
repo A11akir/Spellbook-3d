@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Features.AbstractMinion;
 using Features.Hero.HeroStats.HeroHP;
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Features.GoogleSheets
         private readonly AllGameConfig _allGameConfig;
         private StatsMinionConfig _currentStatsMinionConfig;
         
-        private readonly List<IMinion> _targetSO = new();
+        private readonly List<IMinionStatsData> _targetSO = new();
 
         public StatsMinionParser(AllGameConfig allGameConfig)
         {
@@ -30,7 +31,7 @@ namespace Features.GoogleSheets
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 ScriptableObject so = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
 
-                if (so is IMinion minion)
+                if (so is IMinionStatsData minion)
                 {
                     _targetSO.Add(minion);
                 }
@@ -58,7 +59,6 @@ namespace Features.GoogleSheets
         }
 
         public void ApplyToSO()
-        
         {
             foreach (var cfg in _allGameConfig.StatsMinion)
             {

@@ -1,23 +1,15 @@
-using System;
-using System.Linq;
-using Features.AbstractMinion;
 using Features.Enemy.EnemyStats;
 using Features.Hero.HeroInstance;
-using Features.Hero.HeroStats.HeroHP;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 namespace Features.Enemy.EnemyAttack
 {
-    public class EnemyAttack : MonoBehaviour
+    public class MeleeEnemyAttack : MonoBehaviour, IEnemyAttack
     {
         private HeroProvider _targetHero;
-         
-        
-        private int _damage;
-        public float AttackCooldown = 3f;
-        private float _attackCooldown;
+        private MeleeEnemyStatsData  _stats;
+        private float _attackCooldownCache;
         private bool _isAttacking;
         private int _layerMask;
         
@@ -45,7 +37,7 @@ namespace Features.Enemy.EnemyAttack
         private void UpdateCooldown()
         {
             if (!CooldownIsUp())
-                _attackCooldown -= Time.deltaTime;
+                _attackCooldownCache -= Time.deltaTime;
         }
 
         private bool CanAttack() =>
@@ -55,7 +47,7 @@ namespace Features.Enemy.EnemyAttack
         {
             if (Hit(out Collider hit))
             {
-                _targetHero.Health.TakeDamage(_damage);
+                _targetHero.Health.TakeDamage(_stats.Damage);
                 OnAttackEnded();
             }
         }
@@ -80,9 +72,8 @@ namespace Features.Enemy.EnemyAttack
             new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward * EffectiveDistance;
 
         private bool CooldownIsUp() =>
-             _attackCooldown <= 0;
+             _attackCooldownCache <= 0;
 
-        // ReSharper disable Unity.PerformanceAnalysis
         private void StartAttack()
         {
             transform.LookAt(_targetHero.HeroReference.transform);
@@ -92,7 +83,7 @@ namespace Features.Enemy.EnemyAttack
         }
         private void OnAttackEnded()
         {
-            _attackCooldown = AttackCooldown;
+            _attackCooldownCache = _stats.AttackSpeed;
             _isAttacking = false;
         } 
 

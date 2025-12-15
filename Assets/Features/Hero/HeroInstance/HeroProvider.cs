@@ -1,5 +1,6 @@
 using Cinemachine;
 using Features.AbstractMinion;
+using Features.Enemy.EnemySpawner;
 using Features.Hero.HeroMove;
 using Features.Hero.HeroStats;
 using Features.Hero.HeroStats.HeroHP;
@@ -8,35 +9,40 @@ using Zenject;
 
 namespace Features.Hero.HeroInstance
 {
-    public class HeroProvider 
+    public class HeroProvider : MonoBehaviour
     {
+        [SerializeField] private HpBarView _heroBarView;
         [Inject] private CinemachineVirtualCamera _cinemachineVirtualCamera;
         public GameObject HeroReference { get; private set; }
         
-        private HpBarPresenter _hpBarPresenter;
+        private HpBarPresenterFactory _presenterFactory;
         private HeroStatsData _heroStatsData;
-        private IHealth _health;
-        public IHealth Health => _health;
         private CharacterController _characterController;
         private float _heroWidth;
-        
-        public HeroProvider(HeroStatsData heroStatsData, IHealth health)
+        public IHealth Health;
+
+        [Inject]
+        private void Construct(HeroStatsData heroStatsData, HpBarPresenterFactory presenterFactory)
         {
             _heroStatsData = heroStatsData;
-            _health = health;
+            _presenterFactory = presenterFactory;
         }
         
         public void SetDependencies(GameObject heroReference)
         {
             HeroReference = heroReference;
             _cinemachineVirtualCamera.Follow = heroReference.transform;
-            _characterController = HeroReference.GetComponent<CharacterController>();
+            _characterController = HeroReference.GetComponentInChildren<CharacterController>();
+            Health = HeroReference.GetComponent<Health>();
+            _presenterFactory.Create(_heroBarView, Health);
+        }
 
-            var movement = HeroReference.GetComponent<MovementHero>();
+        public void SetConfig()
+        {
+            var movement = HeroReference.GetComponentInChildren<MovementHero>();
             movement._moveSpeed = _heroStatsData.MoveSpeed;
-            
-            _health.MaxHp = _heroStatsData.Health;
-            _health.ResetHp();
+            Health.MaxHp = _heroStatsData.Health;
+            Health.ResetHp();
         }
 
         public float GetSkinWidth()

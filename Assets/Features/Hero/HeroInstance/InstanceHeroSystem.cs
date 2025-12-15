@@ -1,11 +1,5 @@
-using System;
-using Cinemachine;
-using Features.Hero.HeroMove;
-using Features.Hero.HeroStats;
-using Features.Hero.HeroStats.HeroHP;
 using UnityEngine;
 using Zenject;
-using Zenject.SpaceFighter;
 
 namespace Features.Hero.HeroInstance
 {

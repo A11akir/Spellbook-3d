@@ -1,3 +1,4 @@
+using Features.AbstractMinion;
 using Features.Hero.HeroStats.HeroHP;
 using UnityEngine;
 
@@ -7,15 +8,21 @@ namespace Features.Enemy.EnemyStats
         fileName = "HeroStatsData",
         menuName = "Configs/Enemy/MeleeEnemy Stats Data",
         order = 1)]
-    public class MeleeEnemyStatsData : ScriptableObject, IMinion
+    public class MeleeEnemyStatsData : ScriptableObject, IMinionStatsData
     {
         [SerializeField] private int _moveSpeed;
         [SerializeField] private int _speed;
         [SerializeField] private int _damage;
+        [SerializeField] private int _attackSpeed;
         public int MoveSpeed
         {
             get => _moveSpeed;
             set => _moveSpeed = value;
+        }
+        public int AttackSpeed
+        {
+            get => _attackSpeed;
+            set => _attackSpeed = value;
         }
 
         public int Health

@@ -11,6 +11,7 @@ namespace Features.Spells
     {
         public event Action<int> SpellUsed;
         [Inject] private FireballLogic _fireballLogic;
+        
         public void ExecuteFirstSpell(int number)
         {
             _fireballLogic.ExecuteFireball();

@@ -1,4 +1,4 @@
-using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,21 +6,32 @@ namespace Features.Hero.HeroStats.HeroHP
 {
     public class HpBarView : MonoBehaviour
     {
-        public Slider SliderHP;
-        public void SetValue(float current, float max) =>
-        SliderHP.value = (current/max)*max;
-        
-        private Camera _camera;
+        [SerializeField] private Slider _sliderHp; 
+        [SerializeField] private Slider _sliderHpEffect;
+        [SerializeField] private bool _isHeroBar;
 
-        private void OnEnable()
+        private GameObject _enemyPrefab;
+
+        private Tween _effectTween;
+
+        public void SetValue(float current, float max)
         {
-            _camera = Camera.main;
+            _sliderHp.maxValue = max;
+            _sliderHp.value = current;
+            _sliderHpEffect.maxValue = max;
+            
+            _effectTween?.Kill();
+
+            if (_sliderHpEffect.value > current)
+            {
+                _effectTween = _sliderHpEffect
+                    .DOValue(current, 0.5f) 
+                    .SetDelay(0.2f)
+                    .SetEase(Ease.OutQuad);
+            }
+            else
+                _sliderHpEffect.value = current;
         }
 
-        private void LateUpdate()
-        {
-            transform.LookAt(new Vector3(transform.position.x, _camera.transform.position.y, _camera.transform.position.z));
-            transform.Rotate(0, 180, 0);
-        }
     }
 }

@@ -1,12 +1,14 @@
 using System;
 using Features.AbstractMinion;
+using Features.Spells.Fireball;
 using UnityEngine;
 
 namespace Features.Hero.HeroStats.HeroHP
 {
-    public class Health : IHealth
+    public class Health : MonoBehaviour, IHealth, IDamageable
     {
         public event Action HpChanged;
+        public event Action OnDeath;
 
         private float _currentHp;
         public float CurrentHp
@@ -17,12 +19,14 @@ namespace Features.Hero.HeroStats.HeroHP
                 if (!Mathf.Approximately(_currentHp, value))
                 {
                     _currentHp = value;
+           
                     HpChanged?.Invoke();
                 }
             }
         }
 
         public float MaxHp { get; set; }
+
 
         public void ResetHp() => CurrentHp = MaxHp;
         public void Heal(float amount)
@@ -32,8 +36,13 @@ namespace Features.Hero.HeroStats.HeroHP
 
         public void TakeDamage(float damage)
         {
-            if (CurrentHp <= 0) return;
             CurrentHp -= damage;
+
+            if (CurrentHp <= 0)
+            {
+                Destroy(gameObject);
+                OnDeath?.Invoke();
+            }
         }
     }
 }

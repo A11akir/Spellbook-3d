@@ -7,21 +7,18 @@ using Zenject;
 
 namespace Features.Spells.Fireball
 {
-    public class FireballLogic : MonoBehaviour
+    public class FireballLogic : MonoBehaviour, ISpellLogic
     {
         [Inject] private DiContainer _container;
         [Inject] private HeroProvider _heroProvider;
-
+        private FireballStatsData _stats;
+        
         [SerializeField] private GameObject _fireballPrefab;
-
-        [SerializeField] private float _lifeTime = 2f;
-        [SerializeField] private float _speed = 10f;
-        [SerializeField] private float _damage = 5f;
-        [SerializeField] private float _hitRadius = 1.5f;
-
+        
         private bool _damageDealt;
         private readonly Collider[] _hits = new Collider[5];
         private int _mask;
+        
 
         public void ExecuteFireball()
         {
@@ -40,10 +37,10 @@ namespace Features.Spells.Fireball
                 null
             );
 
-            float maxDistance = _speed * _lifeTime;
+            float maxDistance = _stats.MissleSpeed * _stats.MissleSpeed;
             Vector3 targetPos = spawnPos + direction * maxDistance;
 
-            fireball.transform.DOMove(targetPos, _lifeTime)
+            fireball.transform.DOMove(targetPos, _stats.LifeTime)
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
@@ -62,16 +59,18 @@ namespace Features.Spells.Fireball
             
             float radius = Mathf.Max(col.bounds.extents.x, col.bounds.extents.y, col.bounds.extents.z);
 
-            StartCoroutine(TrackRoutine(fireball, radius, _lifeTime));
+            StartCoroutine(TrackRoutine(fireball, radius, _stats.LifeTime));
         }
 
-        // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator TrackRoutine(GameObject fb, float radius, float lifetime)
         {
             float timer = 0f;
 
             while (!_damageDealt && timer < lifetime)
             {
+                
+                if (!fb) yield break;
+                
                 CheckDamage(fb, radius);
                 timer += Time.deltaTime;
                 yield return null;
@@ -80,7 +79,7 @@ namespace Features.Spells.Fireball
 
         private void CheckDamage(GameObject fb, float radius)
         {
-            if (_damageDealt) return;
+            if (_damageDealt || !fb) return;
 
             int count = Physics.OverlapSphereNonAlloc(fb.transform.position, radius, _hits, _mask);
 
@@ -90,9 +89,9 @@ namespace Features.Spells.Fireball
                 {
                     var enemyHp = _hits[i].GetComponent<Health>();
 
-                    if (enemyHp != null)
+                    if (enemyHp)
                     {
-                        enemyHp.TakeDamage(_damage);
+                        enemyHp.TakeDamage(_stats.Damage);
                         _damageDealt = true;
                         Destroy(fb);
                         break;
@@ -100,5 +99,7 @@ namespace Features.Spells.Fireball
                 }
             }
         }
+
+
     }
 }

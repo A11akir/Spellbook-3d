@@ -83,9 +83,12 @@ namespace Features.GoogleSheets
                             var header = _headers[j];
                             
                             parser.Parse(header, cellValue.ToString());
+                            
                         }
+                        
                 }
                 
+                _headers.Clear();
                 Debug.Log("Sheet parsed successfully");
             }
             else

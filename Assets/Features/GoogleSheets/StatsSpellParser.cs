@@ -61,7 +61,8 @@ namespace Features.GoogleSheets
                     _currentStatsSpellConfig.MissleSpeed = Convert.ToInt32(token);
                     break; 
                 case "Cooldown":
-                    _currentStatsSpellConfig.MissleSpeed = Convert.ToInt32(token);
+                    _currentStatsSpellConfig.Cooldown = float.Parse(token);
+                    _currentStatsSpellConfig.MaxCooldown = float.Parse(token);
                     break;
             }
         }
@@ -82,10 +83,12 @@ namespace Features.GoogleSheets
                 so.Damage = cfg.Damage;
                 so.LifeTime = cfg.LifeTime;
                 so.MissileSpeed = cfg.MissleSpeed;
+                Debug.Log(so.Damage);
+                Debug.Log(so);
                 so.Cooldown = cfg.Cooldown;
+                so.MaxCooldown = cfg.MaxCooldown;
 
                 EditorUtility.SetDirty(so as Object);
-                Debug.Log($"✨ Updated Spell SO: {cfg.Id}");
             }
 
             AssetDatabase.SaveAssets();

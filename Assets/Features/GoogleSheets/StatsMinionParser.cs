@@ -49,11 +49,14 @@ namespace Features.GoogleSheets
                 case "Damage":
                     _currentStatsMinionConfig.Damage = Convert.ToInt32(token);
                     break;
-                case "Speed":
-                    _currentStatsMinionConfig.Speed = Convert.ToInt32(token);
+                case "MoveSpeed":
+                    _currentStatsMinionConfig.MoveSpeed = Convert.ToInt32(token);
                     break;
                 case "Health":
                     _currentStatsMinionConfig.Health = Convert.ToInt32(token);
+                    break;  
+                case "AttackSpeed":
+                    _currentStatsMinionConfig.AttackSpeed = Convert.ToInt32(token);
                     break;
             }
         }
@@ -70,8 +73,10 @@ namespace Features.GoogleSheets
                     continue;
                 }
 
-                so.MoveSpeed = cfg.Speed;
+                so.MoveSpeed = cfg.MoveSpeed;
                 so.Health = cfg.Health;
+                so.Damage = cfg.Damage;
+                so.AttackSpeed = cfg.AttackSpeed;
 
                 EditorUtility.SetDirty(so as UnityEngine.Object);
                 Debug.Log($"✅ Updated SO: {cfg.Id}");

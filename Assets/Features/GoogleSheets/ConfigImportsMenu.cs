@@ -10,7 +10,7 @@ namespace Features.GoogleSheets
     {
         private static string spreadsheetId = "1B-nYVnmV_UKYShUIgmLXGMUo63LR0XOzwpcAmj_BTqo";
         private static List<string> itemsSheetsName;
-        private static string credentialsPath = "spellbook3d-0437d485a3d0.json";
+        private static string credentialsPath = "spellbook3d-99dfc0512ae4.json";
         
         [MenuItem("GoogleSheets/Import All Configs")]
         private static async void LoadItemsSettings()
@@ -46,8 +46,6 @@ namespace Features.GoogleSheets
                 await sheetsImporter.DownloadAndParseSheet(sheet, parser);
                 
                 parser.ApplyToSO();
-                
-
             }
         }
         

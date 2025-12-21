@@ -4,6 +4,7 @@ using Features.Enemy.EnemySpawner;
 using Features.Hero.HeroMove;
 using Features.Hero.HeroStats;
 using Features.Hero.HeroStats.HeroHP;
+using Features.Spells;
 using UnityEngine;
 using Zenject;
 
@@ -14,7 +15,9 @@ namespace Features.Hero.HeroInstance
         [SerializeField] private HpBarView _heroBarView;
         [Inject] private CinemachineVirtualCamera _cinemachineVirtualCamera;
         public GameObject HeroReference { get; private set; }
-        
+
+        public SpellsMonobehSpawner _spellsMonobehSpawner;
+        private MovementHero _movementHero;
         private HpBarPresenterFactory _presenterFactory;
         private HeroStatsData _heroStatsData;
         private CharacterController _characterController;
@@ -33,14 +36,15 @@ namespace Features.Hero.HeroInstance
             HeroReference = heroReference;
             _cinemachineVirtualCamera.Follow = heroReference.transform;
             _characterController = HeroReference.GetComponentInChildren<CharacterController>();
+            _spellsMonobehSpawner = HeroReference.GetComponentInChildren<SpellsMonobehSpawner>();
+            _movementHero = HeroReference.GetComponent<MovementHero>();
             Health = HeroReference.GetComponent<Health>();
             _presenterFactory.Create(_heroBarView, Health);
         }
 
         public void SetConfig()
         {
-            var movement = HeroReference.GetComponentInChildren<MovementHero>();
-            movement._moveSpeed = _heroStatsData.MoveSpeed;
+            _movementHero._moveSpeed = _heroStatsData.MoveSpeed;
             Health.MaxHp = _heroStatsData.Health;
             Health.ResetHp();
         }

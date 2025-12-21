@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: MeleeEnemy
   m_EditorClassIdentifier: 
   _moveSpeed: 3
-  _speed: 50
-  _damage: 10
+  _health: 50
+  _damage: 5
+  _attackSpeed: 5

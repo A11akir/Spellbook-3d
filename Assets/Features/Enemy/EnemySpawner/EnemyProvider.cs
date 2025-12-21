@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Features.AbstractMinion;
 using Features.Enemy.EnemyAttack;
+using Features.Enemy.EnemyStats;
 using Features.Enemy.NavMesh;
 using Features.Hero.HeroStats.HeroHP;
 using UnityEngine;
@@ -10,44 +11,60 @@ namespace Features.Enemy.EnemySpawner
     public class EnemyProvider
     {
         private readonly List<GameObject> _enemies = new();
+        private readonly MeleeEnemyStatsData _meleeStats;
+        private readonly RangeEnemyStatsData _rangeStats;
+        private readonly GromillaEnemyStatsData _gromillaStats;
         private readonly HpBarPresenterFactory _presenterFactory;
-        private IMinionStatsData _stats;
         private AgentMoveToPlayer _enemyMove;
         private IEnemyAttack _enemyAttack;
-        private Health _enemyHealth;
-
-        public EnemyProvider(IMinionStatsData stats, HpBarPresenterFactory presenterFactory, Health enemyHealth, IEnemyAttack enemyAttack, AgentMoveToPlayer enemyMove)
+        private IHealth _enemyHealth;
+        private readonly Dictionary<EnemyType, IMinionStatsData> _statsByType;
+        public EnemyProvider(
+            MeleeEnemyStatsData meleeStats,
+            RangeEnemyStatsData rangeStats,
+            GromillaEnemyStatsData gromillaStats,
+            HpBarPresenterFactory presenterFactory)
         {
-            _stats = stats;
+            _meleeStats = meleeStats;
+            _rangeStats = rangeStats;
+            _gromillaStats = gromillaStats;
             _presenterFactory = presenterFactory;
-            _enemyHealth = enemyHealth;
-            _enemyAttack = enemyAttack;
-            _enemyMove = enemyMove;
+
+            _statsByType = new Dictionary<EnemyType, IMinionStatsData>
+            {
+                { EnemyType.Melee, meleeStats },
+                { EnemyType.Range, rangeStats },
+                { EnemyType.Gromilla, gromillaStats }
+            };
         }
         
-        public void RegisterEnemy(GameObject enemy, GameObject enemyCanvas, EnemySpawner.EnemyType  type)
+        public void RegisterEnemy(GameObject enemy, GameObject enemyCanvas, EnemyType type)
         {
             _enemies.Add(enemy);
 
-            _enemyMove = enemy.GetComponentInChildren<AgentMoveToPlayer>();
-            _enemyAttack = enemy.GetComponentInChildren<IEnemyAttack>();
-            _enemyHealth = enemy.GetComponentInChildren<Health>();
-            
+            var enemyMove = enemy.GetComponentInChildren<AgentMoveToPlayer>();
+            var enemyAttack = enemy.GetComponentInChildren<IEnemyAttack>();
+            var enemyHealth = enemy.GetComponentInChildren<IHealth>();
+
             var viewBar = enemyCanvas.GetComponentInChildren<HpBarView>();
             var canvasSystem = enemyCanvas.GetComponent<CanvasMinionSystem>();
+    
+            canvasSystem.Init(enemy, enemyHealth);
+            _presenterFactory.Create(viewBar, enemyHealth);
             
-            canvasSystem.Init(enemy, _enemyHealth);
-            _presenterFactory.Create(viewBar, _enemyHealth);
+            var stats = _statsByType[type];
             
-            SetConfig();
+            SetConfig(enemyMove, enemyAttack, enemyHealth, stats);
         }
 
-        public void SetConfig()
+        private void SetConfig(AgentMoveToPlayer move, IEnemyAttack attack, IHealth health, IMinionStatsData stats)
         {
-            _enemyMove.agent.speed = _stats.MoveSpeed;
-            /*_enemyAttack._damage = _stats.Damage;*/
-            _enemyHealth.MaxHp = _stats.Health;
-            _enemyHealth.ResetHp();
+            move.agent.speed = stats.MoveSpeed;
+            attack._damage = stats.Damage;
+            attack._attackSpeed = stats.AttackSpeed;
+            health.MaxHp = stats.Health;
+            health.ResetHp();
         }
+
     }
 }

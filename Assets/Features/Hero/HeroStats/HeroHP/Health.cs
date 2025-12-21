@@ -40,8 +40,9 @@ namespace Features.Hero.HeroStats.HeroHP
 
             if (CurrentHp <= 0)
             {
-                Destroy(gameObject);
                 OnDeath?.Invoke();
+                Destroy(gameObject);
+          
             }
         }
     }

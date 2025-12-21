@@ -9,18 +9,62 @@ namespace Features.Spells
 {
     public class SpellSystem
     {
-        public event Action<int> SpellUsed;
-        [Inject] private FireballLogic _fireballLogic;
-        
-        public void ExecuteFirstSpell(int number)
+        private FireballStatsData _fireballStatsData;
+        private List<SpellStateBase> _spellStates = new List<SpellStateBase>();
+        private SpellsKitData _spellsKitData;
+
+        private HeroProvider _heroProvider;
+        public event Action<int, SpellStateBase> SpellUsed;
+
+        private List<ISpellLogic> _spellLogics;
+
+        public SpellSystem(HeroProvider heroProvider, FireballStatsData fireballStatsData, SpellsKitData spellsKitData)
         {
-            _fireballLogic.ExecuteFireball();
-            SpellUsed?.Invoke(number);
+            _heroProvider = heroProvider;
+            _fireballStatsData = fireballStatsData;
+            _spellsKitData = spellsKitData;
         }
 
-        public float GetCooldown(int spellIndex)
+        public void RegisterSpell()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < _spellsKitData.SpellsKit.Count; i++)
+            {
+                switch (_spellsKitData.SpellsKit[i])
+                {
+                    case "Fireball":
+                        _heroProvider._spellsMonobehSpawner.SpawnSpellSystem(Spells.Fireball, _fireballStatsData);
+                        _spellStates.Add(_fireballStatsData);
+                        _fireballStatsData.Cooldown = 0;
+                        break;
+                    case "Lightning":
+                        // _spellsMonobehSpawner.SpawnSpellSystem(Spells.Lightning);
+                        break;
+                }
+            }
+
         }
+
+        public void ExecuteSpell(int number)
+        {
+            if (_spellStates[number].Cooldown > 0) return;
+
+            _spellStates[number].Cooldown = _spellStates[number].MaxCooldown;
+            _heroProvider._spellsMonobehSpawner
+                ._spellLogics[number]
+                .ExecuteSpell();
+
+            _spellStates[number].Cooldown = _spellStates[number].MaxCooldown;
+            SpellUsed?.Invoke(number, _spellStates[number]);
+        }
+        
+        public void TickCooldowns(float deltaTime)
+        {
+            foreach (var state in _spellStates)
+            {
+                if (state.Cooldown > 0f)
+                    state.Cooldown -= deltaTime;
+            }
+        }
+
     }
 }

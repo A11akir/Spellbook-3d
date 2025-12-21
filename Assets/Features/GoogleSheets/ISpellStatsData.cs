@@ -5,6 +5,7 @@ namespace Features.GoogleSheets
         int Damage { get; set; }
         int LifeTime { get; set; }
         int MissileSpeed { get; set; }
-        int Cooldown { get; set; }
+        float Cooldown { get; set; }
+        float MaxCooldown { get; set; }
     }
 }

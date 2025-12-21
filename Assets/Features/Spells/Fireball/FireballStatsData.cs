@@ -1,3 +1,4 @@
+using Features.GoogleSheets;
 using UnityEngine;
 
 namespace Features.Spells.Fireball
@@ -6,9 +7,10 @@ namespace Features.Spells.Fireball
         fileName = "SpellStatsData",
         menuName = "Configs/Spell/Fireball Stats Data",
         order = 1)]
-    public class FireballStatsData : SpellStateBase
+    public class FireballStatsData : SpellStateBase, ISpellStatsData
     {
-        [SerializeField] private int _cooldown;
+        [SerializeField] private float _cooldown;
+        [SerializeField] private float _maxCooldown;
         [SerializeField] private int _missleSpeed;
         [SerializeField] private int _damage;
         [SerializeField] private int _lifeTime;
@@ -18,15 +20,21 @@ namespace Features.Spells.Fireball
             get => _lifeTime;
             set => _lifeTime = value;
         }
-        public int MissleSpeed
+
+        public int MissileSpeed
         {
             get => _missleSpeed;
             set => _missleSpeed = value;
         }
-        public int Cooldown
+        public override float Cooldown
         {
             get => _cooldown;
             set => _cooldown = value;
+        }
+        public override float MaxCooldown
+        {
+            get => _maxCooldown;
+            set => _maxCooldown = value;
         }
         public int Damage
         {

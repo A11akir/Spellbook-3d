@@ -10,11 +10,12 @@ namespace Features.Enemy.EnemyAttack
         private HeroProvider _targetHero;
         private MeleeEnemyStatsData  _stats;
         private float _attackCooldownCache;
+        public int _damage { get; set; }
+        public int _attackSpeed  { get; set; }
         private bool _isAttacking;
         private int _layerMask;
         
-        public float Cleavage = 5f;
-        public float EffectiveDistance = 0.5f;
+        private float _effectiveDistance = 0.5f;
         private Collider[] _hits = new Collider[1];
         private bool _attackIsActive;
 
@@ -25,7 +26,7 @@ namespace Features.Enemy.EnemyAttack
         }
         
         private void OnEnable() =>
-            _layerMask = 1 << LayerMask.NameToLayer($"Player");
+            _layerMask = 1 << LayerMask.NameToLayer("Player");
 
         private void Update()
         {
@@ -47,14 +48,14 @@ namespace Features.Enemy.EnemyAttack
         {
             if (Hit(out Collider hit))
             {
-                _targetHero.Health.TakeDamage(_stats.Damage);
+                _targetHero.Health.TakeDamage(_damage);
                 OnAttackEnded();
             }
         }
 
         private bool Hit(out Collider hit)
         {
-            var hitCount = Physics.OverlapSphereNonAlloc(StartPoint(), Cleavage, _hits, _layerMask);
+            var hitCount = Physics.OverlapSphereNonAlloc(StartPoint(), 1, _hits, _layerMask);
 
             GetFirstHit(out hit, hitCount);
 
@@ -69,7 +70,7 @@ namespace Features.Enemy.EnemyAttack
         }
 
         private Vector3 StartPoint() => 
-            new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward * EffectiveDistance;
+            new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward * _effectiveDistance;
 
         private bool CooldownIsUp() =>
              _attackCooldownCache <= 0;
@@ -83,11 +84,12 @@ namespace Features.Enemy.EnemyAttack
         }
         private void OnAttackEnded()
         {
-            _attackCooldownCache = _stats.AttackSpeed;
+            _attackCooldownCache = _attackSpeed;
             _isAttacking = false;
         } 
 
         public void DisableAttack() => _attackIsActive = false;
+
         public void EnableAttack() => _attackIsActive = true;
     }
 }

@@ -6,5 +6,6 @@ namespace Features.Spells
     {
         /*Spells Spells { get; set; }
         void SetStats(SpellStateBase cfg);*/
+        void ExecuteSpell();
     }
 }

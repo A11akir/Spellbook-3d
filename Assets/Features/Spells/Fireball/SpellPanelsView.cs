@@ -8,17 +8,17 @@ namespace Features.Spells.Fireball
 {
     public class SpellPanelsView : MonoBehaviour
     {
-        private List<SkillPanelView> _skillPanels;
+        [SerializeField] private List<SkillPanelView> _skillPanels;
         [Inject] SpellSystem _spellSystem;
 
-        private void OnEnable()
+        private void OnEnable() => _spellSystem.SpellUsed += OnSpellUsed;
+
+        private void OnDisable() => _spellSystem.SpellUsed -= OnSpellUsed;
+
+        private void OnSpellUsed(int number, SpellStateBase state)
         {
-            _spellSystem.SpellUsed += OnSpellUsed;
+            _skillPanels[number].UseSpell(state);
         }
 
-        public void OnSpellUsed(int number)
-        {
-            /*float cooldown = _spellSystem.GetCooldown(spellIndex);*/
-        }
     }
 }

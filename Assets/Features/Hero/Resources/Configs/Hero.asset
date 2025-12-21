@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c502b4e7dae341939eff13dfe921143c, type: 3}
   m_Name: Hero
   m_EditorClassIdentifier: 
-  _moveSpeed: 3
+  _moveSpeed: 5
   _speed: 100
-  _health: 200
+  _health: 100

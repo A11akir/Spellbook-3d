@@ -17,12 +17,12 @@ namespace Features.Enemy.EnemyAttack
         [SerializeField] private GameObject _projectilePrefab;
 
         public int _damage { get; set; }
+        public int _attackSpeed { get; set; }
 
-        public float AttackCooldown = 3f;
         public float ProjectileSpeed = 6f;
         public float LifeTime = 3f;
 
-        private float _cooldown;
+        private float _cooldownCache;
         private int _mask;
         private bool _attackIsActive;
         private bool _isAttacking;
@@ -40,9 +40,9 @@ namespace Features.Enemy.EnemyAttack
             if (!_attackIsActive) 
                 return;
 
-            if (_cooldown > 0)
+            if (_cooldownCache > 0)
             {
-                _cooldown -= Time.deltaTime;
+                _cooldownCache -= Time.deltaTime;
                 return;
             }
 
@@ -55,7 +55,7 @@ namespace Features.Enemy.EnemyAttack
             if (!_hero_provider_valid()) return;
 
             StartCoroutine(AttackRoutine());
-            _cooldown = AttackCooldown;
+            _cooldownCache = _attackSpeed;
         }
 
         private bool _hero_provider_valid()

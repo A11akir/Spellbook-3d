@@ -6,6 +6,7 @@ namespace Features.AbstractMinion
     {
         float CurrentHp { get; }
         float MaxHp { get; set; }
+        event Action OnDeath;
         event Action HpChanged;
         void TakeDamage(float amount);
         void ResetHp();

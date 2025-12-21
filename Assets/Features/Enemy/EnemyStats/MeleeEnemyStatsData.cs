@@ -11,9 +11,11 @@ namespace Features.Enemy.EnemyStats
     public class MeleeEnemyStatsData : ScriptableObject, IMinionStatsData
     {
         [SerializeField] private int _moveSpeed;
-        [SerializeField] private int _speed;
+        [SerializeField] private int _health;
         [SerializeField] private int _damage;
         [SerializeField] private int _attackSpeed;
+        public EnemyType EnemyType { get; set; }
+
         public int MoveSpeed
         {
             get => _moveSpeed;
@@ -27,8 +29,8 @@ namespace Features.Enemy.EnemyStats
 
         public int Health
         {
-            get => _speed;
-            set => _speed = value;
+            get => _health;
+            set => _health = value;
         }
         public int Damage
         {

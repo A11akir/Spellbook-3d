@@ -1,3 +1,4 @@
+/*using Features.Spells.Fireball;
 using UnityEngine;
 
 namespace Features.Hero.HeroStats.HeroHP
@@ -6,12 +7,12 @@ namespace Features.Hero.HeroStats.HeroHP
         fileName = "Spawners",
         menuName = "Configs/Spawners/Level1.1",
         order = 1)]
-    public class FireballStats : ScriptableObject
+    public class FireballStats : SpellStateBase
     {
         [SerializeField] private int _damage = 25;
         [SerializeField] private int _lifeTime = 3;
         [SerializeField] private int _missleSpeed = 100;
-        [SerializeField] private int _cooldown = 2;
+        [SerializeField] private float _cooldown = 2;
         [SerializeField] private int _cost = 12;
 
         public int Damage
@@ -32,7 +33,7 @@ namespace Features.Hero.HeroStats.HeroHP
             set => _missleSpeed = value;
         }
 
-        public int Cooldown
+        public override float Cooldown
         {
             get => _cooldown;
             set => _cooldown = value;
@@ -45,4 +46,4 @@ namespace Features.Hero.HeroStats.HeroHP
         }
     }
 
-}
+}*/

@@ -15,6 +15,8 @@ namespace Features.Hero.HeroStats.HeroHP
         [SerializeField] private int _speed;
         [SerializeField] private int _health;
 
+        public EnemyType EnemyType { get; set; }
+
         public int MoveSpeed
         {
             get => _moveSpeed;
@@ -27,5 +29,6 @@ namespace Features.Hero.HeroStats.HeroHP
         }
 
         public int Damage { get; set; }
+        public int AttackSpeed { get; set; }
     }
 }

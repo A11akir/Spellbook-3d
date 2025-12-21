@@ -11,16 +11,26 @@ namespace Features.Spells.Fireball
     {
         [Inject] private DiContainer _container;
         [Inject] private HeroProvider _heroProvider;
+        [Inject] private SpellSystem spellSystem;
         private FireballStatsData _stats;
         
-        [SerializeField] private GameObject _fireballPrefab;
+        public GameObject _fireballPrefab;
         
         private bool _damageDealt;
         private readonly Collider[] _hits = new Collider[5];
         private int _mask;
-        
 
-        public void ExecuteFireball()
+        public void SetStats(FireballStatsData stats)
+        {
+            _stats = stats;
+        }
+
+        void Update()
+        {
+            spellSystem.TickCooldowns(Time.deltaTime);
+        }
+        
+        public void ExecuteSpell()
         {
             var hero = _heroProvider.HeroReference.transform;
 
@@ -37,7 +47,7 @@ namespace Features.Spells.Fireball
                 null
             );
 
-            float maxDistance = _stats.MissleSpeed * _stats.MissleSpeed;
+            float maxDistance = _stats.LifeTime * _stats.MissileSpeed;
             Vector3 targetPos = spawnPos + direction * maxDistance;
 
             fireball.transform.DOMove(targetPos, _stats.LifeTime)
@@ -99,7 +109,5 @@ namespace Features.Spells.Fireball
                 }
             }
         }
-
-
     }
 }

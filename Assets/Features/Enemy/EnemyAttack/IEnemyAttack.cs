@@ -4,5 +4,8 @@ namespace Features.Enemy.EnemyAttack
     {
         void EnableAttack();
         void DisableAttack();
+        
+        int _damage { get; set; }
+        int _attackSpeed { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Features.Input.Scripts
 
             inputGamePlay._inputActions.PlayerControl.FirstSpell.performed += ctx =>
             {
-                spellSystem1.ExecuteFirstSpell(1);
+                spellSystem1.ExecuteSpell(0);
             };
         }
     }

@@ -8,8 +8,9 @@ namespace Features.GoogleSheets
     {
         public string Id;
         public int Damage;
-        public int Speed;
+        public int MoveSpeed;
         public int Health;
+        public int AttackSpeed;
     }  
     [Serializable]
     public class SpellStatsConfig
@@ -18,7 +19,8 @@ namespace Features.GoogleSheets
         public int Damage;
         public int LifeTime;
         public int MissleSpeed;
-        public int Cooldown;
+        public float Cooldown;
+        public float MaxCooldown;
     } 
     [Serializable]
     public class SpellsKitConfig

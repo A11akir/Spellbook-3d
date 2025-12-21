@@ -15,6 +15,8 @@ namespace Features.Enemy.EnemySpawner
         [SerializeField] private GameObject _hpBarPrefab;
         [SerializeField] private Transform _hpBarParent;
 
+        private Transform _spawnEnemyParent;
+
         [SerializeField] private GameObject _spawnerPrefab;
         [SerializeField] private List<GameObject> _enemyPrefab;
 
@@ -34,18 +36,15 @@ namespace Features.Enemy.EnemySpawner
 
         public void StartSpawnEnemy()
         {
+            _spawnEnemyParent = transform;
             for (int i = 0; i < _configData.CountSpawners; i++)
             {
-                Vector3 pos = _spawnMapSystem.GetRandomPointForSpawnEnemy();
-
-                var spawner = _container.InstantiatePrefab(
-                    _spawnerPrefab,
-                    pos,
-                    Quaternion.identity,
-                    transform);
+                var spawner = _container.InstantiatePrefab(_spawnerPrefab, parentTransform: transform);
+                
+                spawner.transform.position = _spawnMapSystem.GetRandomPointForSpawnEnemy(spawner);
 
                 spawner.GetComponent<EnemySpawner>()
-                    .InitSpawner(_configData, _enemyPrefab, _hpBarPrefab, _hpBarParent);
+                    .InitSpawner(_configData, _enemyPrefab, _hpBarPrefab, _hpBarParent, _spawnEnemyParent);
             }
         }
     }

@@ -7,6 +7,7 @@ using Features.Enemy.EnemyStats;
 using Features.GameBootstrap;
 using Features.GoogleSheets;
 using Features.Hero.HeroInstance;
+using Features.Hero.HeroMove;
 using Features.Hero.HeroStats.HeroHP;
 using Features.Input.Scripts;
 using Features.MapGenerate;
@@ -20,10 +21,14 @@ namespace Features.Installers
 {
     public class MainInstaller : MonoInstaller
     {
-        [SerializeField] private MeleeEnemyStatsData _meleeStats;        
+        [SerializeField] private MeleeEnemyStatsData _meleeStats;  
+        [SerializeField] private RangeEnemyStatsData _rangeStats; 
+        [SerializeField] private GromillaEnemyStatsData _gromillaStats; 
         [SerializeField] private HeroStatsData _heroStats;
         [SerializeField] private FireballStatsData _fireballStats;
         [SerializeField] private SpellsKitData _spellsKitData;
+        [SerializeField] private SpawnerConfigData _spawnerConfigData;
+        [SerializeField] private BaseSpawnerStatsData _baseSpawnerStatsData;
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
         {
@@ -36,10 +41,24 @@ namespace Features.Installers
 
             BindConfig();
             
-            Container.Bind<MeleeEnemyAttack>().FromComponentInHierarchy().AsTransient();
 
             Container.Bind<InputGamePlay>().AsSingle().NonLazy();
             Container.Bind<IHealth>().To<Health>().AsTransient();
+            Container.Bind<IEnemyAttack>()
+                .To<MeleeEnemyAttack>()
+                .FromComponentInChildren()
+                .AsTransient();
+
+            Container.Bind<IEnemyAttack>()
+                .To<RangeEnemyAttack>()
+                .FromComponentInChildren()
+                .AsTransient();
+            
+            Container.Bind<MovementHero>()
+                .FromComponentInChildren()
+                .AsTransient();
+                        
+   
             
             Container.Bind<InputMovementPlayer>().AsSingle().NonLazy();
             Container.Bind<InputSpells>().AsSingle().NonLazy();
@@ -52,10 +71,11 @@ namespace Features.Installers
                 .FromComponentInHierarchy()
                 .AsSingle()
                 .NonLazy();
+            
             Container.Bind<FireballLogic>()
-                .FromComponentInHierarchy()
+                .FromComponentInChildren()
                 .AsSingle()
-                .NonLazy();
+                .Lazy();
 
             Container.Bind<CinemachineVirtualCamera>().FromComponentInHierarchy().AsSingle();
             
@@ -76,10 +96,14 @@ namespace Features.Installers
 
         private void BindConfig()
         {
-            Container.Bind<IMinionStatsData>().To<MeleeEnemyStatsData>().FromInstance(_meleeStats).AsTransient().NonLazy();            
+            Container.Bind<MeleeEnemyStatsData>().FromInstance(_meleeStats).AsTransient().NonLazy();  
+            Container.Bind<RangeEnemyStatsData>().FromInstance(_rangeStats).AsTransient().NonLazy();  
+            Container.Bind<GromillaEnemyStatsData>().FromInstance(_gromillaStats).AsTransient().NonLazy();         
             Container.Bind<HeroStatsData>().FromInstance(_heroStats).AsSingle().NonLazy();
             Container.Bind<FireballStatsData>().FromInstance(_fireballStats).AsSingle().NonLazy();
-
+            Container.Bind<SpawnerConfigData>().FromInstance(_spawnerConfigData).AsSingle().NonLazy();
+            Container.Bind<SpellsKitData>().FromInstance(_spellsKitData).AsSingle().NonLazy();
+            Container.Bind<BaseSpawnerStatsData>().FromInstance(_baseSpawnerStatsData).AsSingle().NonLazy();
             Container.Bind<SpellConfigBindSystem>().AsSingle().NonLazy();
         }
 

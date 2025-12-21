@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Features.AbstractMinion;
+using Features.Enemy.EnemyStats;
+using Features.Hero.HeroStats.HeroHP;
 using UnityEngine;
 using Zenject;
 
@@ -9,15 +12,18 @@ namespace Features.Enemy.EnemySpawner
     {
         [Inject] private DiContainer _container;
         [Inject] private EnemyProvider _enemyProvider;
-
+        [Inject] private BaseSpawnerStatsData _spawnerStatsData;
+        [Inject] private  HpBarPresenterFactory _presenterFactory;
+        
         private SpawnerConfigData _config;
         private List<GameObject> _enemyPrefabs;
         private GameObject _hpBarPrefab;
         private Transform _hpBarParent;
+        private Transform _enemySpawnParent;
 
-        private int meleeLeft;
-        private int rangeLeft;
-        private int gromillaLeft;
+        private int _meleeLeft;
+        private int _rangeLeft;
+        private int _gromillaLeft;
 
         private bool _running;
 
@@ -25,18 +31,31 @@ namespace Features.Enemy.EnemySpawner
             SpawnerConfigData config,
             List<GameObject> enemyPrefabs,
             GameObject hpBarPrefab,
-            Transform hpBarParent)
+            Transform hpBarParent, Transform enemySpawnParent)
         {
             _config = config;
             _enemyPrefabs = enemyPrefabs;
             _hpBarPrefab = hpBarPrefab;
             _hpBarParent = hpBarParent;
+            _enemySpawnParent = enemySpawnParent;
 
-            meleeLeft = _config.CountMeleeSpawners;
-            rangeLeft = _config.CountRangeSpawners;
-            gromillaLeft = _config.CountGromillaSpawners;
+            _meleeLeft = _config.CountMeleeSpawners;
+            _rangeLeft = _config.CountRangeSpawners;
+            _gromillaLeft = _config.CountGromillaSpawners;
 
             _running = true;
+            
+            var canvas = _container.InstantiatePrefab(_hpBarPrefab, _hpBarParent);
+            
+            var viewBar = canvas.GetComponentInChildren<HpBarView>();
+            var canvasSystem = canvas.GetComponent<CanvasMinionSystem>();
+            var enemyHealth = GetComponentInChildren<IHealth>();
+
+            enemyHealth.MaxHp = _spawnerStatsData.Health;
+            enemyHealth.ResetHp();
+            canvasSystem.Init(gameObject, enemyHealth);
+            _presenterFactory.Create(viewBar, enemyHealth);
+
 
             StartCoroutine(SpawnerLoop());
         }
@@ -45,9 +64,17 @@ namespace Features.Enemy.EnemySpawner
         {
             while (_running)
             {
+                ResetCounters();
                 yield return SpawnWave();
                 yield return new WaitForSeconds(_config.SpawnInterval);
             }
+        }
+
+        private void ResetCounters()
+        {
+            _meleeLeft = _config.CountMeleeSpawners;
+            _rangeLeft = _config.CountRangeSpawners;
+            _gromillaLeft = _config.CountGromillaSpawners;
         }
 
         private IEnumerator SpawnWave()
@@ -64,29 +91,27 @@ namespace Features.Enemy.EnemySpawner
                 yield return new WaitForSeconds(_config.SpawnDelay);
             }
         }
-
-        public enum EnemyType { Melee, Range, Gromilla }
-
+        
         private List<EnemyType> BuildSpawnQueue()
         {
             var list = new List<EnemyType>();
 
-            for (int i = 0; i < meleeLeft; i++) list.Add(EnemyType.Melee);
-            for (int i = 0; i < rangeLeft; i++) list.Add(EnemyType.Range);
-            for (int i = 0; i < gromillaLeft; i++) list.Add(EnemyType.Gromilla);
+            for (int i = 0; i < _meleeLeft; i++) list.Add(EnemyType.Melee);
+            for (int i = 0; i < _rangeLeft; i++) list.Add(EnemyType.Range);
+            for (int i = 0; i < _gromillaLeft; i++) list.Add(EnemyType.Gromilla);
 
             return list;
         }
 
         private void SpawnSingle(EnemyType type)
         {
-            if (type == EnemyType.Melee && meleeLeft > 0) meleeLeft--;
-            else if (type == EnemyType.Range && rangeLeft > 0) rangeLeft--;
-            else if (type == EnemyType.Gromilla && gromillaLeft > 0) gromillaLeft--;
+            if (type == EnemyType.Melee && _meleeLeft > 0) _meleeLeft--;
+            else if (type == EnemyType.Range && _rangeLeft > 0) _rangeLeft--;
+            else if (type == EnemyType.Gromilla && _gromillaLeft > 0) _gromillaLeft--;
 
             GameObject selected = SelectPrefab(type);
 
-            var enemy = _container.InstantiatePrefab(selected, transform.position, Quaternion.identity, transform);
+            var enemy = _container.InstantiatePrefab(selected, transform.position, Quaternion.identity, _enemySpawnParent);
             var canvas = _container.InstantiatePrefab(_hpBarPrefab, _hpBarParent);
 
             _enemyProvider.RegisterEnemy(enemy, canvas, type);

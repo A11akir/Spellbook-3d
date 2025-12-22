@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6e219aa07514ca6aed6b443282bc2ee, type: 3}
-  m_Name: 1
+  m_Script: {fileID: 11500000, guid: 394517a3c3114dbd9715e980c5400a03, type: 3}
+  m_Name: Lightning
   m_EditorClassIdentifier: 
-  _spellsKit:
-  - Fireball
-  - Lightning
+  Spells: 1
+  _cooldown: 3
+  _maxCooldown: 3
+  _missleSpeed: 0
+  _damage: 10
+  _range: 500

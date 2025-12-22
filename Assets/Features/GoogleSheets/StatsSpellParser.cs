@@ -60,6 +60,9 @@ namespace Features.GoogleSheets
                 case "MissleSpeed":
                     _currentStatsSpellConfig.MissleSpeed = Convert.ToInt32(token);
                     break; 
+                case "Range":
+                    _currentStatsSpellConfig.Range = Convert.ToInt32(token);
+                    break; 
                 case "Cooldown":
                     _currentStatsSpellConfig.Cooldown = float.Parse(token);
                     _currentStatsSpellConfig.MaxCooldown = float.Parse(token);

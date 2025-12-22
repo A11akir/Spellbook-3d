@@ -16,6 +16,11 @@ namespace Features.Input.Scripts
             {
                 spellSystem1.ExecuteSpell(0);
             };
+            
+            inputGamePlay._inputActions.PlayerControl.TwoSpell.performed += ctx =>
+            {
+                spellSystem1.ExecuteSpell(1);
+            };
         }
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028292, g: 0.22571306, b: 0.30692118, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2623,6 +2623,8 @@ MonoBehaviour:
   _gromillaStats: {fileID: 11400000, guid: a2468a2c488e9483f9f037e7da0133f6, type: 2}
   _heroStats: {fileID: 11400000, guid: 01f8f55ab928c0345925409f50796903, type: 2}
   _fireballStats: {fileID: 11400000, guid: e6c55014a21d24a27a7fe46be9e36ca7, type: 2}
+  _lightningStatsData: {fileID: 11400000, guid: 2d914e81fdc2a644fadde2c726b51efe,
+    type: 2}
   _spellsKitData: {fileID: 11400000, guid: d32fee7df426b4d618340db8fc4aa13f, type: 2}
   _spawnerConfigData: {fileID: 11400000, guid: 8de5063a3d33342859e3e6d2632542e1, type: 2}
   _baseSpawnerStatsData: {fileID: 11400000, guid: 053b213deafb841a9868410a8472fe2e,

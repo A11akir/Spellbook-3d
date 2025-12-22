@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using Features.Hero.HeroInstance;
@@ -20,6 +21,11 @@ namespace Features.Spells.Fireball
         private readonly Collider[] _hits = new Collider[5];
         private int _mask;
 
+        private void OnEnable()
+        {
+            _mask = 1 << LayerMask.NameToLayer("Enemy");
+        }
+
         public void SetStats(FireballStatsData stats)
         {
             _stats = stats;
@@ -33,8 +39,6 @@ namespace Features.Spells.Fireball
         public void ExecuteSpell()
         {
             var hero = _heroProvider.HeroReference.transform;
-
-            _mask = 1 << LayerMask.NameToLayer("Enemy");
             
             Vector3 direction = hero.forward.normalized;
 

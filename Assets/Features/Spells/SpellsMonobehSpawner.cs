@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Features.Hero.HeroStats.HeroHP;
 using Features.Spells.Fireball;
+using Features.Spells.Lightning;
 using UnityEngine;
 using Zenject;
 
@@ -27,7 +28,7 @@ namespace Features.Spells
                     var lightning = _container.InstantiateComponent<LightningLogic>(gameObject);
                     _spellLogics.Add(lightning);
                     lightning.SetStats((LightningStatsData)stats);
-                    lightning.lightningPrefab = _lightningPrefab;
+                    lightning._lightningPrefab = _lightningPrefab;
                     break;
             }
         }

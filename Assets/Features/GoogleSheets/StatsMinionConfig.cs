@@ -17,6 +17,7 @@ namespace Features.GoogleSheets
     {
         public string Id;
         public int Damage;
+        public int Range;
         public int LifeTime;
         public int MissleSpeed;
         public float Cooldown;

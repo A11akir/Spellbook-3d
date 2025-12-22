@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fireballPrefab: {fileID: 3009799646725413459, guid: d013f402c2acc9f47bd2fa73a2f25481,
     type: 3}
+  _lightningPrefab: {fileID: 4408332608750644218, guid: fa478efa2bc2b434e84cc2819dc364c4,
+    type: 3}
 --- !u!1001 &902125486744929287
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ namespace Features.Spells.Fireball
 {
     [CreateAssetMenu(
         fileName = "SpellStatsData",
-        menuName = "Configs/Spell/Fireball Stats Data",
+        menuName = "Configs/Spell/Lightning Stats Data",
         order = 1)]
     public class LightningStatsData : SpellStateBase, ISpellStatsData
     {

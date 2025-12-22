@@ -26,6 +26,7 @@ namespace Features.Installers
         [SerializeField] private GromillaEnemyStatsData _gromillaStats; 
         [SerializeField] private HeroStatsData _heroStats;
         [SerializeField] private FireballStatsData _fireballStats;
+        [SerializeField] private LightningStatsData _lightningStatsData;
         [SerializeField] private SpellsKitData _spellsKitData;
         [SerializeField] private SpawnerConfigData _spawnerConfigData;
         [SerializeField] private BaseSpawnerStatsData _baseSpawnerStatsData;
@@ -101,6 +102,7 @@ namespace Features.Installers
             Container.Bind<GromillaEnemyStatsData>().FromInstance(_gromillaStats).AsTransient().NonLazy();         
             Container.Bind<HeroStatsData>().FromInstance(_heroStats).AsSingle().NonLazy();
             Container.Bind<FireballStatsData>().FromInstance(_fireballStats).AsSingle().NonLazy();
+            Container.Bind<LightningStatsData>().FromInstance(_lightningStatsData).AsSingle().NonLazy();
             Container.Bind<SpawnerConfigData>().FromInstance(_spawnerConfigData).AsSingle().NonLazy();
             Container.Bind<SpellsKitData>().FromInstance(_spellsKitData).AsSingle().NonLazy();
             Container.Bind<BaseSpawnerStatsData>().FromInstance(_baseSpawnerStatsData).AsSingle().NonLazy();

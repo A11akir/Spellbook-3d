@@ -10,6 +10,7 @@ namespace Features.Spells
     public class SpellSystem
     {
         private FireballStatsData _fireballStatsData;
+        private LightningStatsData _lightningStatsData;
         private List<SpellStateBase> _spellStates = new List<SpellStateBase>();
         private SpellsKitData _spellsKitData;
 
@@ -18,11 +19,12 @@ namespace Features.Spells
 
         private List<ISpellLogic> _spellLogics;
 
-        public SpellSystem(HeroProvider heroProvider, FireballStatsData fireballStatsData, SpellsKitData spellsKitData)
+        public SpellSystem(HeroProvider heroProvider, FireballStatsData fireballStatsData, SpellsKitData spellsKitData, LightningStatsData lightningStatsData)
         {
             _heroProvider = heroProvider;
             _fireballStatsData = fireballStatsData;
             _spellsKitData = spellsKitData;
+            _lightningStatsData = lightningStatsData;
         }
 
         public void RegisterSpell()
@@ -37,11 +39,27 @@ namespace Features.Spells
                         _fireballStatsData.Cooldown = 0;
                         break;
                     case "Lightning":
-                        // _spellsMonobehSpawner.SpawnSpellSystem(Spells.Lightning);
+                        _heroProvider._spellsMonobehSpawner.SpawnSpellSystem(Spells.Lightning, _lightningStatsData);
+                        _spellStates.Add(_lightningStatsData);
+                        _lightningStatsData.Cooldown = 0;
                         break;
+                    
+                    
                 }
             }
+            Debug.Log($"[SpellSystem] SpellStates count = {_spellStates.Count}");
 
+            for (int i = 0; i < _spellStates.Count; i++)
+            {
+                var spell = _spellStates[i];
+
+                Debug.Log(
+                    $"[{i}] " +
+                    $"Type: {spell.GetType().Name}, " +
+                    $"Cooldown: {spell.Cooldown}, "
+                );
+            }
+            
         }
 
         public void ExecuteSpell(int number)

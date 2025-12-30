@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Fireball
   m_EditorClassIdentifier: 
   Spells: 0
-  _cooldown: 1
+  _cooldown: 0.3309766
   _maxCooldown: 1
   _missleSpeed: 25
-  _damage: 50
+  _damage: 5
   _lifeTime: 3
+  _cost: 13
+  _typeMagic: 0

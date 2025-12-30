@@ -1,4 +1,5 @@
 using Features.AbstractMinion;
+using Features.AbstractMinion.Script;
 using UnityEngine;
 
 namespace Features.Enemy.EnemyStats
@@ -13,7 +14,13 @@ namespace Features.Enemy.EnemyStats
         [SerializeField] private int _health;
         [SerializeField] private int _damage;
         [SerializeField] private int _attackSpeed;
-        public EnemyType EnemyType { get; set; }
+        [SerializeField] private EnemyType _enemyType;  // <- сериализуемое поле
+
+        public EnemyType EnemyType
+        {
+            get => _enemyType;
+            set => _enemyType = value;
+        }
 
         public int MoveSpeed
         {

@@ -1,3 +1,5 @@
+using Features.Hero.HeroInstance;
+
 namespace Features.Enemy.EnemyAttack
 {
     public interface IEnemyAttack
@@ -7,5 +9,6 @@ namespace Features.Enemy.EnemyAttack
         
         int _damage { get; set; }
         int _attackSpeed { get; set; }
+        void Init(HeroProvider heroProvider);
     }
 }

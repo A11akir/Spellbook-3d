@@ -22,6 +22,8 @@ namespace Features.GoogleSheets
         public int MissleSpeed;
         public float Cooldown;
         public float MaxCooldown;
+        public int Cost;
+        public bool TypeMagic;
     } 
     [Serializable]
     public class SpellsKitConfig

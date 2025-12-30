@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6475555970952738569}
   - component: {fileID: 5362008662302738599}
   - component: {fileID: -7875548839797615459}
+  - component: {fileID: 7392963022685969876}
   m_Layer: 6
   m_Name: RangeEnemy
   m_TagString: Untagged
@@ -186,11 +187,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95755ddccd1e4b44af060a80e82c0cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectilePrefab: {fileID: 5321274441428028372, guid: 1d4947b7df2d5438798bd0279c771c30,
+  _projectilePrefab: {fileID: 5138007752519211407, guid: 1d4947b7df2d5438798bd0279c771c30,
     type: 3}
-  AttackCooldown: 3
   ProjectileSpeed: 6
   LifeTime: 3
+--- !u!114 &7392963022685969876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650627115662372743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4840a0011b4045f1baa3344e0b1b760a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4178824721057486899
 GameObject:
   m_ObjectHideFlags: 0

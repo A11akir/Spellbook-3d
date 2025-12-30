@@ -1,5 +1,6 @@
 using System;
 using Features.AbstractMinion;
+using Features.AbstractMinion.Script;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,7 +16,13 @@ namespace Features.Hero.HeroStats.HeroHP
         [SerializeField] private int _speed;
         [SerializeField] private int _health;
 
-        public EnemyType EnemyType { get; set; }
+        [SerializeField] private EnemyType _enemyType; 
+
+        public EnemyType EnemyType
+        {
+            get => _enemyType;
+            set => _enemyType = value;
+        }
 
         public int MoveSpeed
         {

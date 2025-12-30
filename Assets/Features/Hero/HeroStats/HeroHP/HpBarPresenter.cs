@@ -1,5 +1,6 @@
 using System;
 using Features.AbstractMinion;
+using Features.AbstractMinion.Script;
 using Features.Hero.HeroStats.HeroHP;
 
 public class HpBarPresenter : IDisposable

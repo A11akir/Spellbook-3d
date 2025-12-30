@@ -19,8 +19,7 @@ namespace Features.Enemy.EnemyAttack
         private Collider[] _hits = new Collider[1];
         private bool _attackIsActive;
 
-        [Inject]
-        private void Construct(HeroProvider heroProvider)
+        public void Init(HeroProvider heroProvider)
         {
             _targetHero = heroProvider;
         }

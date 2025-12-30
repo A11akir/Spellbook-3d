@@ -1,4 +1,5 @@
 using Features.AbstractMinion;
+using Features.AbstractMinion.Script;
 using Features.Hero.HeroStats.HeroHP;
 using Zenject;
 

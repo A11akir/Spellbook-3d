@@ -10,7 +10,7 @@ namespace Features.Spells
     public class SpellsMonobehSpawner : MonoBehaviour
     {
         public List<ISpellLogic> _spellLogics = new List<ISpellLogic>();
-        [SerializeField] private GameObject _fireballPrefab;
+        [SerializeField] private Missile prefab;
         [SerializeField] private GameObject _lightningPrefab;
         [Inject] private DiContainer _container;
 
@@ -20,9 +20,9 @@ namespace Features.Spells
             {
                 case Spells.Fireball:
                     var fireball = _container.InstantiateComponent<FireballLogic>(gameObject);
+                    fireball.InitializePool(prefab, 5);
                     _spellLogics.Add(fireball);
                     fireball.SetStats((FireballStatsData)stats);
-                    fireball._fireballPrefab = _fireballPrefab;
                     break;
                 case Spells.Lightning:
                     var lightning = _container.InstantiateComponent<LightningLogic>(gameObject);

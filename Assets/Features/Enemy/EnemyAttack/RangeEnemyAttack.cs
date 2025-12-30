@@ -2,6 +2,8 @@ using System.Collections;
 using DG.Tweening;
 using Features.Enemy.NavMesh;
 using Features.Hero.HeroInstance;
+using Features.PoolObject;
+using Features.Spells.Fireball;
 using UnityEngine;
 using Zenject;
 
@@ -14,10 +16,15 @@ namespace Features.Enemy.EnemyAttack
 
         private AgentMoveToPlayer _agentMove;
 
-        [SerializeField] private GameObject _projectilePrefab;
+        private PoolMono<Missile> _missilePool;
+        [SerializeField] private Missile _projectilePrefab;
 
         public int _damage { get; set; }
         public int _attackSpeed { get; set; }
+        public void Init(HeroProvider heroProvider)
+        {
+            _heroProvider = heroProvider;
+        }
 
         public float ProjectileSpeed = 6f;
         public float LifeTime = 3f;
@@ -28,9 +35,15 @@ namespace Features.Enemy.EnemyAttack
         private bool _isAttacking;
 
         private readonly Collider[] _hits = new Collider[3];
+        private bool _damageTaken;
 
+        public void InitializePool(Missile prefab, int count)
+        {
+            _missilePool = new PoolMono<Missile>(prefab, count, transform);
+        }
         private void OnEnable()
         {
+            InitializePool(_projectilePrefab, 5);
             _agentMove = GetComponentInChildren<AgentMoveToPlayer>();
             _mask = 1 << LayerMask.NameToLayer("Player");
         }
@@ -84,17 +97,16 @@ namespace Features.Enemy.EnemyAttack
         {
             if (!_hero_provider_valid()) return;
 
+            _damageTaken = false;
             var hero = _heroProvider.HeroReference.transform;
             Vector3 direction = (hero.position - transform.position).normalized;
 
             Vector3 spawnPos = transform.position + direction * 1f + Vector3.up * 1f;
-
-            var projectile = _container.InstantiatePrefab(
-                _projectilePrefab,
-                spawnPos,
-                Quaternion.LookRotation(direction),
-                null
-            );
+            
+            var projectile = _missilePool.GetFreeElement();
+            projectile.transform.position = spawnPos;
+            projectile.transform.rotation = hero.rotation;
+            projectile.gameObject.SetActive(true);
 
             float maxDistance = ProjectileSpeed * LifeTime;
             Vector3 targetPos = spawnPos + direction * maxDistance;
@@ -104,11 +116,10 @@ namespace Features.Enemy.EnemyAttack
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
-                    if (projectile != null)
-                        Destroy(projectile);
+                    if (projectile) projectile.gameObject.SetActive(false);
                 });
 
-            StartCoroutine(TrackProjectile(projectile));
+            StartCoroutine(TrackProjectile(projectile.gameObject));
         }
 
         private IEnumerator TrackProjectile(GameObject proj)
@@ -142,11 +153,11 @@ namespace Features.Enemy.EnemyAttack
 
             if (count > 0)
             {
+                if(_damageTaken) return;
                 var heroHp = _heroProvider.Health;
-                if (heroHp != null)
-                    heroHp.TakeDamage(_damage);
-
-                Destroy(proj);
+                heroHp?.TakeDamage(_damage);
+                proj.gameObject.SetActive(false);
+                _damageTaken = true;
             }
         }
 

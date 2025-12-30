@@ -1,21 +1,28 @@
-using System;
 using Features.Enemy.EnemyAttack;
 using Features.Hero.HeroInstance;
 using UnityEngine;
 using UnityEngine.AI;
-using Zenject;
 
 namespace Features.Enemy.NavMesh
 {
     public class AgentMoveToPlayer : MonoBehaviour
     {
         [SerializeField] private TriggerObserver _triggerObserver;
-        [Inject] private HeroProvider _heroProvider;
+        private HeroProvider _heroProvider;
         
         private bool _isMoving = true;
         public NavMeshAgent agent;
 
-        void Awake() => agent = GetComponent<NavMeshAgent>();
+        private void OnEnable()
+        {
+            agent = GetComponent<NavMeshAgent>();
+        }
+
+        public void Init(HeroProvider heroProvider)
+        {
+            _heroProvider = heroProvider;
+        }
+        
 
         void Update()
         {

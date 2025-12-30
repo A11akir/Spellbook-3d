@@ -4,6 +4,7 @@ using Features.Hero.HeroInstance;
 using UnityEngine;
 using Zenject;
 using System.Collections.Generic;
+using Features.AbstractMinion.Script;
 using Features.Spells.Fireball;
 
 namespace Features.Spells.Lightning
@@ -83,10 +84,9 @@ namespace Features.Spells.Lightning
             
             for (int i = 0; i < count; i++)
             {
-                if (lightnings[i] != null)
-                {
+                if (lightnings[i])
                     Destroy(lightnings[i]);
-                }
+                
                 _targetsHealth[i].TakeDamage(_stats.Damage);
             }
         }

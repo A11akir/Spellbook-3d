@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Features.AbstractMinion;
+using Features.AbstractMinion.Script;
 using Features.Hero.HeroStats.HeroHP;
 using UnityEditor;
 using UnityEngine;

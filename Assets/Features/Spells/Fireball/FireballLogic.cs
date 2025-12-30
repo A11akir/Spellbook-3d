@@ -1,55 +1,52 @@
-using System;
 using System.Collections;
 using DG.Tweening;
 using Features.Hero.HeroInstance;
 using Features.Hero.HeroStats.HeroHP;
+using Features.PoolObject;
 using UnityEngine;
 using Zenject;
 
 namespace Features.Spells.Fireball
 {
-    public class FireballLogic : MonoBehaviour, ISpellLogic
+    public class FireballLogic : MonoBehaviour, ISpellLogic, ITargetSpell
     {
         [Inject] private DiContainer _container;
         [Inject] private HeroProvider _heroProvider;
         [Inject] private SpellSystem spellSystem;
         private FireballStatsData _stats;
-        
-        public GameObject _fireballPrefab;
+        private PoolMono<Missile> _fireballPool;
+        private bool _randomTargetMode;
         
         private bool _damageDealt;
         private readonly Collider[] _hits = new Collider[5];
         private int _mask;
 
-        private void OnEnable()
+        public void InitializePool(Missile prefab, int count)
         {
-            _mask = 1 << LayerMask.NameToLayer("Enemy");
-        }
-
-        public void SetStats(FireballStatsData stats)
-        {
-            _stats = stats;
-        }
-
-        void Update()
-        {
-            spellSystem.TickCooldowns(Time.deltaTime);
+            _fireballPool = new PoolMono<Missile>(prefab, count, transform);
+            _fireballPool.autoExpand = true;
         }
         
+        private void OnEnable() => _mask = 1 << LayerMask.NameToLayer("Enemy");
+
+        public void SetStats(FireballStatsData stats) => _stats = stats;
+
+        public void ChangeSelectTargetMode() => _randomTargetMode = true;
+
+        public void DisableSelectTargetMode() => _randomTargetMode = false;
+
         public void ExecuteSpell()
         {
             var hero = _heroProvider.HeroReference.transform;
             
-            Vector3 direction = hero.forward.normalized;
+            Vector3 direction = GetFireballDirection(hero);
 
             Vector3 spawnPos = hero.position + direction + Vector3.up * _heroProvider.GetSkinWidth();
 
-            var fireball = _container.InstantiatePrefab(
-                _fireballPrefab,
-                spawnPos,
-                hero.rotation,
-                null
-            );
+            var fireball = _fireballPool.GetFreeElement();
+            fireball.transform.position = spawnPos;
+            fireball.transform.rotation = hero.rotation;
+            fireball.gameObject.SetActive(true);
 
             float maxDistance = _stats.LifeTime * _stats.MissileSpeed;
             Vector3 targetPos = spawnPos + direction * maxDistance;
@@ -58,13 +55,24 @@ namespace Features.Spells.Fireball
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
-                    if (fireball != null) Destroy(fireball);
+                    if (fireball) fireball.gameObject.SetActive(false);
                 });
 
-            TrackFireball(fireball);
+            TrackFireball(fireball.gameObject);
         }
 
+        private Vector3 GetFireballDirection(Transform hero)
+        {
+            if (_randomTargetMode)
+            {
+                Vector3 randomDirection = UnityEngine.Random.insideUnitSphere;
+                randomDirection.y = 0f;
+                return randomDirection.normalized;
+            }
 
+            return hero.forward.normalized;
+        }
+        
         private void TrackFireball(GameObject fireball)
         {
             _damageDealt = false;
@@ -82,7 +90,6 @@ namespace Features.Spells.Fireball
 
             while (!_damageDealt && timer < lifetime)
             {
-                
                 if (!fb) yield break;
                 
                 CheckDamage(fb, radius);
@@ -107,7 +114,8 @@ namespace Features.Spells.Fireball
                     {
                         enemyHp.TakeDamage(_stats.Damage);
                         _damageDealt = true;
-                        Destroy(fb);
+                        fb.SetActive(false);
+
                         break;
                     }
                 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Features.AbstractMinion.Script;
 using Features.MapGenerate;
 using UnityEngine;
 using Zenject;
@@ -11,19 +12,19 @@ namespace Features.Enemy.EnemySpawner
         private SpawnerConfigData _configData;
         private SpawnMapSystem _spawnMapSystem;
         private DiContainer _container;
-        
-        [SerializeField] private GameObject _hpBarPrefab;
+        private Camera _camera;
+        [SerializeField] private CanvasMinionSystem _hpBarPrefab;
         [SerializeField] private Transform _hpBarParent;
 
         private Transform _spawnEnemyParent;
 
         [SerializeField] private GameObject _spawnerPrefab;
-        [SerializeField] private List<GameObject> _enemyPrefab;
-
-
+        [SerializeField] private List<MinionTag> _enemyPrefabs;
+        
         [Inject]
-        private void Construct(SpawnMapSystem spawnMapSystem, DiContainer container, SpawnerConfigData configData)
+        private void Construct(SpawnMapSystem spawnMapSystem, DiContainer container, SpawnerConfigData configData, Camera camera)
         {
+            _camera = camera;
             _spawnMapSystem = spawnMapSystem;
             _container = container;
             _configData = configData;
@@ -44,7 +45,7 @@ namespace Features.Enemy.EnemySpawner
                 spawner.transform.position = _spawnMapSystem.GetRandomPointForSpawnEnemy(spawner);
 
                 spawner.GetComponent<EnemySpawner>()
-                    .InitSpawner(_configData, _enemyPrefab, _hpBarPrefab, _hpBarParent, _spawnEnemyParent);
+                    .InitSpawner(_configData, _enemyPrefabs, _hpBarPrefab, _hpBarParent, _spawnEnemyParent, _camera);
             }
         }
     }

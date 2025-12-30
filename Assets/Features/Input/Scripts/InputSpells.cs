@@ -14,12 +14,12 @@ namespace Features.Input.Scripts
 
             inputGamePlay._inputActions.PlayerControl.FirstSpell.performed += ctx =>
             {
-                spellSystem1.ExecuteSpell(0);
+                spellSystem1.TryExecuteSpell(0);
             };
             
             inputGamePlay._inputActions.PlayerControl.TwoSpell.performed += ctx =>
             {
-                spellSystem1.ExecuteSpell(1);
+                spellSystem1.TryExecuteSpell(1);
             };
         }
     }

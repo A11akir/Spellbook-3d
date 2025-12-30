@@ -10,7 +10,7 @@ namespace Features.GoogleSheets
     {
         private static string spreadsheetId = "1B-nYVnmV_UKYShUIgmLXGMUo63LR0XOzwpcAmj_BTqo";
         private static List<string> itemsSheetsName;
-        private static string credentialsPath = "spellbook3d-99dfc0512ae4.json";
+        private static string credentialsPath = "spellbook3d-99aaf87fc610.json";
         
         [MenuItem("GoogleSheets/Import All Configs")]
         private static async void LoadItemsSettings()
@@ -31,12 +31,18 @@ namespace Features.GoogleSheets
                         break;
                     case "StatsSpell":
                         parser = new StatsSpellParser(gameSetting);
+                        break; 
+                    case "InstantSpell":
+                        parser = new StatsSpellParser(gameSetting);
                         break;
                     case "SpellsKit":
                         parser = new SpellsKitParser(gameSetting);
                         break;
                     case "Spawners":
                         parser = new SpawnerLevelsParser(gameSetting);
+                        break;
+                    case "ChaosOrderDebuff":
+                        parser = new ChaosOrderDebuffParser(gameSetting);
                         break;
                     default:
                         Debug.LogWarning($"No parser for sheet: {sheet}");

@@ -14,6 +14,21 @@ namespace Features.Spells.Fireball
         [SerializeField] private int _missleSpeed;
         [SerializeField] private int _damage;
         [SerializeField] private int _lifeTime;
+        [SerializeField] private int _cost;
+        [SerializeField] private bool _typeMagic;
+
+        public override int Cost
+        {
+            get => _cost;
+            set => _cost = value;
+        }
+        public override bool TypeMagic
+        {
+            get => _typeMagic;
+            set => _typeMagic = value;
+        }
+
+        public int Range { get; set; }
 
         public int LifeTime
         {

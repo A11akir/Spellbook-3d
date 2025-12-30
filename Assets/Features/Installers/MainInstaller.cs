@@ -1,16 +1,18 @@
-using System.Collections.Generic;
 using Cinemachine;
-using Features.AbstractMinion;
+using Features.AbstractMinion.Script;
 using Features.Enemy.EnemyAttack;
 using Features.Enemy.EnemySpawner;
 using Features.Enemy.EnemyStats;
 using Features.GameBootstrap;
+using Features.GameplayEffects;
 using Features.GoogleSheets;
+using Features.Hero;
 using Features.Hero.HeroInstance;
 using Features.Hero.HeroMove;
 using Features.Hero.HeroStats.HeroHP;
 using Features.Input.Scripts;
 using Features.MapGenerate;
+using Features.ScaleOrderDebuff.Script;
 using Features.Scripts.Input;
 using Features.Spells;
 using Features.Spells.Fireball;
@@ -30,6 +32,9 @@ namespace Features.Installers
         [SerializeField] private SpellsKitData _spellsKitData;
         [SerializeField] private SpawnerConfigData _spawnerConfigData;
         [SerializeField] private BaseSpawnerStatsData _baseSpawnerStatsData;
+        [SerializeField] private ChaosDebuffStatsData _chaosDebuffStatsData;
+        [SerializeField] private OrderDebuffStatsData _orderDebuffStatsData;
+        
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
         {
@@ -41,7 +46,6 @@ namespace Features.Installers
             Container.BindFactory<HpBarView, IHealth, HpBarPresenter, HpBarPresenterFactory>();
 
             BindConfig();
-            
 
             Container.Bind<InputGamePlay>().AsSingle().NonLazy();
             Container.Bind<IHealth>().To<Health>().AsTransient();
@@ -60,6 +64,9 @@ namespace Features.Installers
                 .AsTransient();
                         
    
+            Container.Bind<Camera>()
+                .FromInstance(Camera.main)
+                .AsSingle();
             
             Container.Bind<InputMovementPlayer>().AsSingle().NonLazy();
             Container.Bind<InputSpells>().AsSingle().NonLazy();
@@ -93,21 +100,63 @@ namespace Features.Installers
                 .FromComponentInHierarchy()
                 .AsSingle()
                 .NonLazy();
+            
+            Container.Bind<SpellCostView>()
+                .FromComponentInHierarchy()
+                .AsSingle()
+                .NonLazy();              
+            Container.Bind<SpellPanelsView>()
+                .FromComponentInHierarchy()
+                .AsSingle()
+                .NonLazy();  
+            Container.Bind<SkillPanelView>()
+                .FromComponentInHierarchy()
+                .AsSingle()
+                .NonLazy();   
+            
+            Container.Bind<OverloadEffectSystem>()
+                .AsSingle()
+                .NonLazy();                
+            Container.Bind<AutoCastSpellSystem>()
+                .AsSingle()
+                .NonLazy();         
+            Container.Bind<SilenceHeroSystem>()
+                .FromComponentInHierarchy()
+                .AsSingle()
+                .NonLazy();            
+            Container.Bind<SpellCostPresenter>()
+                .AsSingle()
+                .NonLazy();
+            
+            Container.Bind<ScaleSpellSystem>()
+                .AsSingle()
+                .NonLazy();              
+            Container.Bind<TakeDamageOnCastSpellEffect>()
+                .AsSingle()
+                .NonLazy();           
+            Container.Bind<ChaosHeroSystem>()
+                .AsSingle()
+                .NonLazy();          
+            Container.Bind<ChaosVisualEffectSystem>()
+                .FromComponentInHierarchy()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindConfig()
         {
-            Container.Bind<MeleeEnemyStatsData>().FromInstance(_meleeStats).AsTransient().NonLazy();  
-            Container.Bind<RangeEnemyStatsData>().FromInstance(_rangeStats).AsTransient().NonLazy();  
-            Container.Bind<GromillaEnemyStatsData>().FromInstance(_gromillaStats).AsTransient().NonLazy();         
+            Container.Bind<MeleeEnemyStatsData>().FromInstance(_meleeStats).AsTransient().Lazy();  
+            Container.Bind<RangeEnemyStatsData>().FromInstance(_rangeStats).AsTransient().Lazy();  
+            Container.Bind<GromillaEnemyStatsData>().FromInstance(_gromillaStats).AsTransient().Lazy();         
             Container.Bind<HeroStatsData>().FromInstance(_heroStats).AsSingle().NonLazy();
             Container.Bind<FireballStatsData>().FromInstance(_fireballStats).AsSingle().NonLazy();
             Container.Bind<LightningStatsData>().FromInstance(_lightningStatsData).AsSingle().NonLazy();
             Container.Bind<SpawnerConfigData>().FromInstance(_spawnerConfigData).AsSingle().NonLazy();
             Container.Bind<SpellsKitData>().FromInstance(_spellsKitData).AsSingle().NonLazy();
             Container.Bind<BaseSpawnerStatsData>().FromInstance(_baseSpawnerStatsData).AsSingle().NonLazy();
+            Container.Bind<OrderDebuffStatsData>().FromInstance(_orderDebuffStatsData).AsSingle().NonLazy();
+            Container.Bind<ChaosDebuffStatsData>().FromInstance(_chaosDebuffStatsData).AsSingle().NonLazy();
             Container.Bind<SpellConfigBindSystem>().AsSingle().NonLazy();
         }
-
     }
 }

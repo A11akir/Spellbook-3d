@@ -17,5 +17,5 @@ MonoBehaviour:
   _countRangeSpawners: 1
   _countGromillaSpawners: 1
   _countSpawners: 1
-  _spawnInterval: 15
+  _spawnInterval: 5
   _spawnDelay: 0.25

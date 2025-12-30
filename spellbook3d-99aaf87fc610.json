@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "spellbook3d",
+  "private_key_id": "99aaf87fc6101f2d33eb10bf7b61bc9ed7400d10",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCy67c9fJ/TBTOl\ntSncrvSOhZ18kNqSHDy0O9eUTjXzAbucPGsxHyOlysl94/CLahD7mZhBjiJ+3lFl\nX0yLRqGjduq+scj5oJPQXH3MIr3xNNRKfq5IPx/iAEMCo/l1u1TU7q/kg6BwkX8L\nBr2mZu5rYQD+eYof/JtlxKdBN22I3veiLgX6dmFN+OYZoQP7lZAJ8luxxFSirlT9\n7z04mEftDiyKZaXMepoQeps424DFhcqnMuoi0eQ9LKGyLuR/JVDKmwgNOcRcp0Hk\nEwePu5Wonz9MlrZnJkPltgtdvb9KzwI9+BFn5h0d4mLU+S2VzWi98uHeivbfzfOC\nMIkCTuBlAgMBAAECggEAJZU2ZSvFra+QyPzMOY8ljz95VIZf5yOXy7srPjuMgQpK\n5JdbY9LY69U0LGXCLCLARP1fOlv3GoOsANl7DGFuiBXtWteg8fCdQ/39rbDZia5x\nbmF8TfA2jARGjyou9yA9wkmN+Hf+rk6dq00D7s19xN/4M7wHe88VvFOJ13zjXQWx\nAFaLgibYk9iLmQpV7EW/O2itWdwA7cO32YpAonjYnEl15vqaya/dZd5UyvKUCk91\nwj9ABBBA9+f+dVb9Hy/zP4X1qn8YH02WWtE5neEAJcR7Gokt0h+kwc2qm9j5R/5Q\nh3BsuQDvpyIfVbjNYz9tJzVheulk3i3N++9Ez3XPwQKBgQDXVGvYLnteIZpQZVqW\nKBOnlJaMmJL0iU5+D8wPMRSHvEDP0BBr0plcoyAQqcs0zz8xfmDSIV3uGkZT+wdb\n4RKiT7Eh3Vf65ncbBi6kyCi2d6JcVC96Z/NfMMYN8IYxz2xC2T2LMVtYwOGMVr4i\nPobT7W5+sVYWUa9qrWD+LhsppQKBgQDUttqmUw6HjS3Uy30zPdLNK5Wjak2MRPhu\n6YYOphNW/UtGCqeJoKSjU0vPX6G85OlcOtOHs91WFco9YbvWz61QmjKq0JhHUpwS\nbAkPDYoteMRM/dsiGvauXEDq6ME0OugAwlHL9s9Wb2iMq0cDeUqn3SOAmFGBZtOy\nGLIzxWufwQKBgQC9CqCjaitkuJuBeXnN2eFnfkuto0Vg6iq/AZ9ktvIPOHat+zxv\nbLS3X38HIgoEku4nxYu67xBHuUmE8R3EzBRP6ybXVDupSivGzealRBR6HQ2tgTst\ne5VuPKOkGUW29SNWjOI7EVng0XUyf/Tsm3hDFm+rSoUJky0tuoksnc27AQKBgQCp\n6OmcY8m+UvIiAO0gCikhQ8hCgT4yZkE/bv9rIhNer/L5nrcWwx/fakCrA8uQtBUH\nW+HtiqmpArzJ7RB61Oau9Iy2TurkRcNvH6bYxEr0aXv7t+bbRkh3HC+qtILncoox\nWQa3co1JkLIlcwbFapRMo+Kg7IpmX7mHkByAKBkAwQKBgGrDLJyCtdFahp0zKRdH\n6NlcHet/xunF7wLHmHenUCV7Amu//gma1h0WIQpjYnCVh7sN9uZxR4I943zLa1Cb\n0yl7uhox7KCWQZXS/wgA6A/FKZhPh38eWmrILjGO6cGaf0n2GSdiO4CRNtpS284k\niwVDPPVaT9Y0TIRvKABQwPMi\n-----END PRIVATE KEY-----\n",
+  "client_email": "spellbook-game@spellbook3d.iam.gserviceaccount.com",
+  "client_id": "102491390446805781026",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/spellbook-game%40spellbook3d.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,5 +1,6 @@
 using System;
 using Features.AbstractMinion;
+using Features.AbstractMinion.Script;
 using Features.Spells.Fireball;
 using UnityEngine;
 
@@ -8,26 +9,23 @@ namespace Features.Hero.HeroStats.HeroHP
     public class Health : MonoBehaviour, IHealth, IDamageable
     {
         public event Action HpChanged;
-        public event Action OnDeath;
+        public event Action HealthOver;
 
         private float _currentHp;
         public float CurrentHp
         {
             get => _currentHp;
-            set
+            private set
             {
                 if (!Mathf.Approximately(_currentHp, value))
                 {
                     _currentHp = value;
-           
                     HpChanged?.Invoke();
                 }
             }
         }
 
         public float MaxHp { get; set; }
-
-
         public void ResetHp() => CurrentHp = MaxHp;
         public void Heal(float amount)
         {
@@ -40,9 +38,8 @@ namespace Features.Hero.HeroStats.HeroHP
 
             if (CurrentHp <= 0)
             {
-                OnDeath?.Invoke();
+                HealthOver?.Invoke();
                 Destroy(gameObject);
-          
             }
         }
     }

@@ -7,6 +7,8 @@ namespace Features.Spells.Fireball
         public Spells Spells;
         public abstract float Cooldown { get; set; }
         public abstract float  MaxCooldown { get; set; }
+        public abstract int Cost { get; set; }
+        public abstract bool TypeMagic { get; set; }
     }
 
 }

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3253255602310019034}
   - component: {fileID: 6475555970952738569}
   - component: {fileID: 5362008662302738599}
+  - component: {fileID: -1277367154803355190}
   m_Layer: 6
   m_Name: MeleeEnemy
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3671559907202178400}
@@ -68,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a3f3261cf7449480cb776804d880e235, type: 2}
+  - {fileID: 2100000, guid: 32d9e18183c7f44cdb594e23b01ee936, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -161,9 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098a1497ae6545608deeedb9f852dfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackCooldown: 3
-  Cleavage: 5
-  EffectiveDistance: 0.5
 --- !u!114 &6475555970952738569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +185,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e50ed9581ec395a46abb34dd2fd83d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1277367154803355190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650627115662372743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4840a0011b4045f1baa3344e0b1b760a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4178824721057486899

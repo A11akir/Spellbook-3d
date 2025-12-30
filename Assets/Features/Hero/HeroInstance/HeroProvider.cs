@@ -1,5 +1,6 @@
 using Cinemachine;
 using Features.AbstractMinion;
+using Features.AbstractMinion.Script;
 using Features.Enemy.EnemySpawner;
 using Features.Hero.HeroMove;
 using Features.Hero.HeroStats;
@@ -18,6 +19,7 @@ namespace Features.Hero.HeroInstance
 
         public SpellsMonobehSpawner _spellsMonobehSpawner;
         private MovementHero _movementHero;
+        private ChaosVisualAnchor _chaosVisualAnchor;
         private HpBarPresenterFactory _presenterFactory;
         private HeroStatsData _heroStatsData;
         private CharacterController _characterController;
@@ -35,6 +37,7 @@ namespace Features.Hero.HeroInstance
         {
             HeroReference = heroReference;
             _cinemachineVirtualCamera.Follow = heroReference.transform;
+            _chaosVisualAnchor = HeroReference.GetComponentInChildren<ChaosVisualAnchor>();
             _characterController = HeroReference.GetComponentInChildren<CharacterController>();
             _spellsMonobehSpawner = HeroReference.GetComponentInChildren<SpellsMonobehSpawner>();
             _movementHero = HeroReference.GetComponent<MovementHero>();
@@ -54,5 +57,9 @@ namespace Features.Hero.HeroInstance
             _heroWidth = _characterController.radius * 2;
             return _heroWidth;
         }
+
+        public IHealth GetHealth() => Health;
+
+        public ChaosVisualAnchor GetPentagramAnchor() => _chaosVisualAnchor;
     }
 }

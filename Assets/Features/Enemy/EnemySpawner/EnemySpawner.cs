@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Features.AbstractMinion;
+using Features.AbstractMinion.Script;
 using Features.Enemy.EnemyStats;
 using Features.Hero.HeroStats.HeroHP;
+using Features.PoolObject;
 using UnityEngine;
 using Zenject;
 
@@ -15,9 +17,15 @@ namespace Features.Enemy.EnemySpawner
         [Inject] private BaseSpawnerStatsData _spawnerStatsData;
         [Inject] private  HpBarPresenterFactory _presenterFactory;
         
+        private Camera _camera;
+        
+        private PoolMono<MinionTag> _enemyPool;
+        private PoolMono<CanvasMinionSystem> _canvasPool;
+        
+        private Dictionary<EnemyType, PoolMono<MinionTag>> _enemyPools;
         private SpawnerConfigData _config;
-        private List<GameObject> _enemyPrefabs;
-        private GameObject _hpBarPrefab;
+        private List<MinionTag> _enemyPrefabs;
+        private CanvasMinionSystem _hpBarPrefab;
         private Transform _hpBarParent;
         private Transform _enemySpawnParent;
 
@@ -29,10 +37,12 @@ namespace Features.Enemy.EnemySpawner
 
         public void InitSpawner(
             SpawnerConfigData config,
-            List<GameObject> enemyPrefabs,
-            GameObject hpBarPrefab,
-            Transform hpBarParent, Transform enemySpawnParent)
+            List<MinionTag> enemyPrefabs,
+            CanvasMinionSystem hpBarPrefab,
+            Transform hpBarParent, Transform enemySpawnParent,
+            Camera camera)
         {
+            _camera = camera;
             _config = config;
             _enemyPrefabs = enemyPrefabs;
             _hpBarPrefab = hpBarPrefab;
@@ -53,11 +63,28 @@ namespace Features.Enemy.EnemySpawner
 
             enemyHealth.MaxHp = _spawnerStatsData.Health;
             enemyHealth.ResetHp();
-            canvasSystem.Init(gameObject, enemyHealth);
+            canvasSystem.Init(gameObject, enemyHealth, camera);
             _presenterFactory.Create(viewBar, enemyHealth);
+            
+            CreatePool();
 
-
+            _canvasPool = new PoolMono<CanvasMinionSystem>(_hpBarPrefab, 15, hpBarParent)
+            { autoExpand = true };
+            
             StartCoroutine(SpawnerLoop());
+        }
+
+        private void CreatePool()
+        {
+            _enemyPools = new Dictionary<EnemyType, PoolMono<MinionTag>>
+            {
+                { EnemyType.Melee, new PoolMono<MinionTag>(_enemyPrefabs[0], 10, _enemySpawnParent) },
+                { EnemyType.Range, new PoolMono<MinionTag>(_enemyPrefabs[1], 10, _enemySpawnParent) },
+                { EnemyType.Gromilla, new PoolMono<MinionTag>(_enemyPrefabs[2], 5, _enemySpawnParent) }
+            };
+
+            foreach (var pool in _enemyPools.Values)
+                pool.autoExpand = true;
         }
 
         private IEnumerator SpawnerLoop()
@@ -105,32 +132,25 @@ namespace Features.Enemy.EnemySpawner
 
         private void SpawnSingle(EnemyType type)
         {
-            if (type == EnemyType.Melee && _meleeLeft > 0) _meleeLeft--;
-            else if (type == EnemyType.Range && _rangeLeft > 0) _rangeLeft--;
-            else if (type == EnemyType.Gromilla && _gromillaLeft > 0) _gromillaLeft--;
+            if (!_enemyPools.TryGetValue(type, out var pool))
+            {
+                return;
+            }
 
-            GameObject selected = SelectPrefab(type);
+            var enemy = pool.GetFreeElement();
+            
+            enemy.gameObject.SetActive(true);
+            enemy.transform.SetParent(_enemySpawnParent);
+            enemy.transform.position = transform.position;
 
-            var enemy = _container.InstantiatePrefab(selected, transform.position, Quaternion.identity, _enemySpawnParent);
-            var canvas = _container.InstantiatePrefab(_hpBarPrefab, _hpBarParent);
+            var canvas = _canvasPool.GetFreeElement();
+            canvas.gameObject.SetActive(true);
+            canvas.transform.SetParent(_hpBarParent);
 
-            _enemyProvider.RegisterEnemy(enemy, canvas, type);
+            _enemyProvider.RegisterEnemy(enemy.gameObject, canvas.gameObject, type);
 
             float h = enemy.transform.localScale.y;
             enemy.transform.position += Vector3.up * h;
-        }
-
-        private GameObject SelectPrefab(EnemyType type)
-        {
-            int index = type switch
-            {
-                EnemyType.Melee => 0,
-                EnemyType.Range => 1,
-                EnemyType.Gromilla => 2,
-                _ => 0
-            };
-
-            return _enemyPrefabs[index];
         }
 
         private void Shuffle<T>(List<T> list)
@@ -142,6 +162,6 @@ namespace Features.Enemy.EnemySpawner
             }
         }
 
-        private void OnDestroy() => _running = false;
+        private void OnDisable() => _running = false;
     }
 }

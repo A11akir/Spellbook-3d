@@ -16,3 +16,4 @@ MonoBehaviour:
   _health: 100
   _damage: 6
   _attackSpeed: 10
+  _enemyType: 2

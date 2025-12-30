@@ -14,7 +14,15 @@ namespace Features.Spells.Fireball
         [SerializeField] private int _missleSpeed;
         [SerializeField] private int _damage;
         [SerializeField] private int _range;
+        [SerializeField] private int _cost;
+        [SerializeField] private bool _typeMagic;
 
+
+        public override bool TypeMagic
+        {
+            get => _typeMagic;
+            set => _typeMagic = value;
+        }
         public int Range
         {
             get => _range;
@@ -38,6 +46,12 @@ namespace Features.Spells.Fireball
             get => _maxCooldown;
             set => _maxCooldown = value;
         }
+        public override int Cost
+        {
+            get => _cost;
+            set => _cost = value;
+        }
+
         public int Damage
         {
             get => _damage;

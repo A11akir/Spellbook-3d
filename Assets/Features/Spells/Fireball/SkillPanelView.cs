@@ -8,7 +8,10 @@ namespace Features.Spells.Fireball
     {
         [SerializeField] private Image _iconSkillFillCooldown;
         [SerializeField] private Image _frameAutoCastImage;
+        [SerializeField] private GameObject _frameSilenceImage;
         [SerializeField] private TextMeshProUGUI _textSkill;
+        
+        private bool _isAutocastEnabled = true;
 
         private SpellStateBase _state;
 
@@ -21,26 +24,33 @@ namespace Features.Spells.Fireball
         {
             _state = state;
             ShowCooldownView();
+            SetAutocastImage();
             UpdateView();
         }
 
-        private void Update()
+        public void TickSkillPanel()
         {
-            if (!_state) return;
-
-            if (_state.Cooldown <= 0f)
-            {
-                HideCooldownView();
-                _state = null;
+            if (!IsStateValid())
                 return;
-            }
 
             UpdateView();
+        }
+
+        private bool IsStateValid()
+        {
+            if (!_state)
+                return false;
+
+            if (_state.Cooldown > 0f)
+                return true;
+
+            HideCooldownView();
+            _state = null;
+            return false;
         }
 
         private void UpdateView()
         {
-            SetAutocastImage();
             float normalized = _state.Cooldown / _state.MaxCooldown;
             _iconSkillFillCooldown.fillAmount = normalized;
             _textSkill.text = Mathf.Ceil(_state.Cooldown).ToString();
@@ -52,7 +62,7 @@ namespace Features.Spells.Fireball
             _textSkill.enabled = true;
         }
 
-        private void HideCooldownView()
+        public void HideCooldownView()
         {
             _iconSkillFillCooldown.enabled = false;
             _textSkill.enabled = false;
@@ -60,7 +70,32 @@ namespace Features.Spells.Fireball
 
         private void SetAutocastImage()
         {
-            _frameAutoCastImage.enabled = true;
+            if (_isAutocastEnabled) 
+                _frameAutoCastImage.enabled = true;
+        }
+
+        public void HideAutocastImage()
+        {
+            _frameAutoCastImage.enabled = false;
+        }
+
+        public void ActivateSilenceView()
+        {
+            _frameSilenceImage.SetActive(true);
+        }
+        public void InactivateSilenceView()
+        {
+            _frameSilenceImage.SetActive(false);
+        }
+
+        public void DisableAutocastImage()
+        {
+           _isAutocastEnabled = false; 
+        }
+
+        public void EnableAutocastImage()
+        {
+           _isAutocastEnabled = true; 
         }
     }
 }

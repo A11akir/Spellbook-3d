@@ -62,6 +62,12 @@ namespace Features.GoogleSheets
                     break; 
                 case "Range":
                     _currentStatsSpellConfig.Range = Convert.ToInt32(token);
+                    break;
+                case "SplashCost":
+                    _currentStatsSpellConfig.Cost = Convert.ToInt32(token);
+                    break; 
+                case "TypeMagic":
+                    _currentStatsSpellConfig.TypeMagic = Convert.ToBoolean(token);
                     break; 
                 case "Cooldown":
                     _currentStatsSpellConfig.Cooldown = float.Parse(token);
@@ -90,6 +96,8 @@ namespace Features.GoogleSheets
                 Debug.Log(so);
                 so.Cooldown = cfg.Cooldown;
                 so.MaxCooldown = cfg.MaxCooldown;
+                so.Cost = cfg.Cost;
+                so.TypeMagic = cfg.TypeMagic;
 
                 EditorUtility.SetDirty(so as Object);
             }
@@ -98,4 +106,8 @@ namespace Features.GoogleSheets
             AssetDatabase.Refresh();
         }
     }
+}
+
+namespace Features.GoogleSheets
+{
 }

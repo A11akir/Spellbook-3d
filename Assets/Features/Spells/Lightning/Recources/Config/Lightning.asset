@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Lightning
   m_EditorClassIdentifier: 
   Spells: 1
-  _cooldown: -0.0055127395
+  _cooldown: 2
   _maxCooldown: 2
   _missleSpeed: 0
-  _damage: 30
+  _damage: 50
   _range: 100
   _cost: 13
   _typeMagic: 1

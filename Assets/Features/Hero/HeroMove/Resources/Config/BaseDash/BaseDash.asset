@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c71992cbaf48b5954505e267ea8c55, type: 3}
-  m_Name: GromillaEnemy
+  m_Script: {fileID: 11500000, guid: 0a56143e5aa94f748ae4c7f4cddf7ab0, type: 3}
+  m_Name: BaseDash
   m_EditorClassIdentifier: 
-  _moveSpeed: 1
-  _health: 100
-  _damage: 6
-  _attackSpeed: 10
-  _enemyType: 3
+  _distance: 5
+  _duration: 0.15
+  _damage: 0

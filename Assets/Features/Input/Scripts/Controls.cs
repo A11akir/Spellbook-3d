@@ -62,6 +62,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""d40e0d19-3c06-47ef-a0d4-ceab05476369"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""TwoSpell"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59e12f10-2205-463b-bd72-960de2d1f677"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -170,6 +190,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_PlayerControl_Rotate = m_PlayerControl.FindAction("Rotate", throwIfNotFound: true);
         m_PlayerControl_FirstSpell = m_PlayerControl.FindAction("FirstSpell", throwIfNotFound: true);
         m_PlayerControl_TwoSpell = m_PlayerControl.FindAction("TwoSpell", throwIfNotFound: true);
+        m_PlayerControl_Dash = m_PlayerControl.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -235,6 +256,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControl_Rotate;
     private readonly InputAction m_PlayerControl_FirstSpell;
     private readonly InputAction m_PlayerControl_TwoSpell;
+    private readonly InputAction m_PlayerControl_Dash;
     public struct PlayerControlActions
     {
         private @Controls m_Wrapper;
@@ -243,6 +265,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Rotate => m_Wrapper.m_PlayerControl_Rotate;
         public InputAction @FirstSpell => m_Wrapper.m_PlayerControl_FirstSpell;
         public InputAction @TwoSpell => m_Wrapper.m_PlayerControl_TwoSpell;
+        public InputAction @Dash => m_Wrapper.m_PlayerControl_Dash;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -264,6 +287,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @TwoSpell.started += instance.OnTwoSpell;
             @TwoSpell.performed += instance.OnTwoSpell;
             @TwoSpell.canceled += instance.OnTwoSpell;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IPlayerControlActions instance)
@@ -280,6 +306,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @TwoSpell.started -= instance.OnTwoSpell;
             @TwoSpell.performed -= instance.OnTwoSpell;
             @TwoSpell.canceled -= instance.OnTwoSpell;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IPlayerControlActions instance)
@@ -312,5 +341,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnFirstSpell(InputAction.CallbackContext context);
         void OnTwoSpell(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
 }

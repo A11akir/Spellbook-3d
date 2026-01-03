@@ -10,6 +10,7 @@ namespace Features.Input.Scripts
         private readonly InputGamePlay _inputGamePlay;
 
         public event Action<Vector2> OnMove;
+        public event Action OnDash;
         public event Action<Vector2> OnDragMouse;
 
         [Inject]
@@ -31,6 +32,11 @@ namespace Features.Input.Scripts
             {
                 Vector2 mousePos = ctx.ReadValue<Vector2>();
                 OnDragMouse?.Invoke(mousePos);
+            };     
+            
+            _inputGamePlay._inputActions.PlayerControl.Dash.performed += ctx =>
+            {
+                OnDash?.Invoke();
             };
         }
     }

@@ -42,6 +42,13 @@ namespace Features.GoogleSheets
         public int SpawnInterval;
         public float SpawnDelay;
     }
-    
+    [Serializable]
+    public class DashConfig
+    {
+        public string Id;
+        public int Distance;
+        public float Duration;
+        public int Damage;
+    }
     
 }

@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b38eed94296e43e3880c059825a83a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1583075071575094065, guid: d013f402c2acc9f47bd2fa73a2f25481, type: 3}
+  prefab: {fileID: 7448520190500059921, guid: d013f402c2acc9f47bd2fa73a2f25481, type: 3}
   _lightningPrefab: {fileID: 4408332608750644218, guid: fa478efa2bc2b434e84cc2819dc364c4,
     type: 3}
 --- !u!1 &6938830246163815927

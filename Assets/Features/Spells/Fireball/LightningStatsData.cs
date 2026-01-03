@@ -17,7 +17,6 @@ namespace Features.Spells.Fireball
         [SerializeField] private int _cost;
         [SerializeField] private bool _typeMagic;
 
-
         public override bool TypeMagic
         {
             get => _typeMagic;

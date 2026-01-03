@@ -34,7 +34,7 @@ namespace Features.Installers
         [SerializeField] private BaseSpawnerStatsData _baseSpawnerStatsData;
         [SerializeField] private ChaosDebuffStatsData _chaosDebuffStatsData;
         [SerializeField] private OrderDebuffStatsData _orderDebuffStatsData;
-        
+        [SerializeField] private DashData _dashData;
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
         {
@@ -156,6 +156,7 @@ namespace Features.Installers
             Container.Bind<BaseSpawnerStatsData>().FromInstance(_baseSpawnerStatsData).AsSingle().NonLazy();
             Container.Bind<OrderDebuffStatsData>().FromInstance(_orderDebuffStatsData).AsSingle().NonLazy();
             Container.Bind<ChaosDebuffStatsData>().FromInstance(_chaosDebuffStatsData).AsSingle().NonLazy();
+            Container.Bind<DashData>().FromInstance(_dashData).AsSingle().NonLazy();
             Container.Bind<SpellConfigBindSystem>().AsSingle().NonLazy();
         }
     }

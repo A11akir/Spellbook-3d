@@ -12,11 +12,7 @@ namespace Features.GoogleSheets
         public List<SpellsKitConfig> SpellsKit;
         public List<SpawnersConfig> SpawnersStats;
         public List<ScaleDebuffConfig> ScaleDebuffStats;
+        public List<DashConfig> DashStats;
     }
 
-    public class ScaleDebuffConfig
-    {
-        public string Id;
-        public int TimeDebuff;
-    }
 }

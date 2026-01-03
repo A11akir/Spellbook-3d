@@ -10,7 +10,7 @@ namespace Features.Spells
     public class SpellsMonobehSpawner : MonoBehaviour
     {
         public List<ISpellLogic> _spellLogics = new List<ISpellLogic>();
-        [SerializeField] private Missile prefab;
+        [SerializeField] private FireballProjectile prefab;
         [SerializeField] private GameObject _lightningPrefab;
         [Inject] private DiContainer _container;
 

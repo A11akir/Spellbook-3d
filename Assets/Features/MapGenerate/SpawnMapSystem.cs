@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using Zenject;
 
@@ -8,7 +10,13 @@ namespace Features.MapGenerate
     public class SpawnMapSystem : MonoBehaviour
     {
         [Inject] private DynamicNavMeshBake _navMeshBake;
-        [SerializeField] private List<GameObject> _mapPrefabs;
+        [System.Serializable]
+        public class GameObjectArray
+        {
+            public GameObject[] Prefabs;
+        }
+
+        [SerializeField] private GameObjectArray[] _mapPrefabs = new GameObjectArray[9];
         [SerializeField] private Transform _mapParent;
         private List<Transform> _spawnPoints = new List<Transform>();
 
@@ -19,7 +27,7 @@ namespace Features.MapGenerate
         {
             int halfGrid = gridSize / 2;
 
-            chunkSize = _mapPrefabs.FirstOrDefault()!.transform.localScale.x;
+            /*chunkSize = _mapPrefabs.FirstOrDefault()!.transform.localScale.x;*/
 
             for (int x = -halfGrid; x <= halfGrid; x++)
             {
@@ -38,20 +46,21 @@ namespace Features.MapGenerate
         {
             GenerateSpawnPoints();
 
-            foreach (var point in _spawnPoints)
+            for (int i = 0; i < Mathf.Min(_spawnPoints.Count, _mapPrefabs.Length); i++)
             {
-                var randomPrefab = _mapPrefabs[Random.Range(0, _mapPrefabs.Count)];
-
-                var obj = Instantiate(randomPrefab, Vector3.zero, Quaternion.identity);
+                var point = _spawnPoints[i];
+                var prefabArray = _mapPrefabs[i];
+                
+                if (prefabArray == null || prefabArray.Prefabs == null || prefabArray.Prefabs.Length == 0) 
+                  continue;
+                
+                var randomPrefab = prefabArray.Prefabs[Random.Range(0, prefabArray.Prefabs.Length)];
+                
+                if (randomPrefab == null) { continue; }
+        
+                var obj = Instantiate(randomPrefab, point.position, randomPrefab.transform.rotation);
                 obj.transform.SetParent(point.transform);
-                var col = obj.GetComponent<Collider>();
-                float halfHeight = col.bounds.extents.y;
-
-                Vector3 spawnPos = point.position;
-                spawnPos.y -= halfHeight;
-                obj.transform.position = spawnPos;
             }
-
             _navMeshBake.BuildNavMesh();
         }
 
@@ -59,20 +68,15 @@ namespace Features.MapGenerate
         {
             int count = _spawnPoints.Count;
 
-            if (count == 0)
-                return -1;
+            if (count == 0) return -1;
 
             bool isOdd = count % 2 != 0;
             int middleIndex = count / 2;
-
-            // если чётное — просто любой
-            if (!isOdd)
-                return Random.Range(0, count);
-
-            // если нечётное — исключаем центр
+            
+            if (!isOdd) return Random.Range(0, count);
+            
             int index = Random.Range(0, count - 1);
-            if (index >= middleIndex)
-                index++;
+            if (index >= middleIndex) index++;
 
             return index;
         }
